@@ -1,0 +1,63 @@
+{
+  "$schema": "https://raw.githubusercontent.com/martinring/tmlanguage/master/tmlanguage.json",
+  "name": "Narrative Hell",
+  "patterns": [
+    {
+      "include": "#keywords"
+    },
+    {
+      "include": "#strings"
+    },
+    {
+      "name": "entity.name.section.narrative-flow",
+      "match": "^===\\s+(.+)\\s+==="
+    },
+    {
+      "name": "markup.heading.narrative-flow",
+      "match": "^#\\s+.+"
+    },
+    {
+      "name": "markup.bold.choice.narrative-flow",
+      "match": "^\\*\\s+\\[.+\\]"
+    },
+    {
+      "name": "keyword.control.flow.narrative-flow",
+      "match": "->\\s+\\w+"
+    },
+    {
+      "name": "variable.parameter.effect.narrative-flow",
+      "match": "~\\s+\\w+\\s+[+-]?\\d+"
+    },
+    {
+      "name": "string.quoted.narrative-flow",
+      "begin": "\"",
+      "end": "\""
+    },
+    {
+      "name": "comment.line.narrative-flow",
+      "match": "//.*$"
+    }
+  ],
+  "repository": {
+    "keywords": {
+      "patterns": [
+        {
+          "name": "keyword.control.nhell",
+          "match": "\\b(if|while|for|return)\\b"
+        }
+      ]
+    },
+    "strings": {
+      "name": "string.quoted.double.nhell",
+      "begin": "\"",
+      "end": "\"",
+      "patterns": [
+        {
+          "name": "constant.character.escape.nhell",
+          "match": "\\\\."
+        }
+      ]
+    }
+  },
+  "scopeName": "source.nhell"
+}
