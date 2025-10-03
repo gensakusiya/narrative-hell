@@ -28,8 +28,8 @@
           "nhell"
         ],
         "extensions": [
-          "nhell",
-          "nh"
+          ".nhell",
+          ".nh"
         ],
         "configuration": "./language-configuration.json"
       }
@@ -43,10 +43,34 @@
     ],
     "commands": [
       {
-        "command": "narrative-hell.helloWorld",
-        "title": "Hello World"
+        "command": "narrative-hell.showGraph",
+        "title": "Show Story Graph",
+        "icon": "$(graph)"
+      },
+      {
+        "command": "narrative-hell.validate",
+        "title": "Validate Story Flow",
+        "icon": "$(check)"
+      },
+      {
+        "command": "narrative-hell.simulate",
+        "title": "Simulate from Here"
       }
-    ]
+    ],
+    "menus": {
+      "editor/title": [
+        {
+          "when": "resourceExtname == .nhell || resourceExtname == .nh",
+          "command": "narrative-hell.showGraph",
+          "group": "navigation"
+        },
+        {
+          "when": "resourceExtname == .nhell || resourceExtname == .nh",
+          "command": "narrative-hell.validate",
+          "group": "navigation"
+        }
+      ]
+    }
   },
   "scripts": {
     "vscode:prepublish": "pnpm run package",

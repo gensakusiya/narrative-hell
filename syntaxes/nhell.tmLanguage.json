@@ -1,63 +1,204 @@
 {
   "$schema": "https://raw.githubusercontent.com/martinring/tmlanguage/master/tmlanguage.json",
   "name": "Narrative Hell",
+  "scopeName": "source.nhell",
   "patterns": [
     {
-      "include": "#keywords"
+      "include": "#event-header"
     },
     {
-      "include": "#strings"
+      "include": "#metadata"
     },
     {
-      "name": "entity.name.section.narrative-flow",
-      "match": "^===\\s+(.+)\\s+==="
+      "include": "#title"
     },
     {
-      "name": "markup.heading.narrative-flow",
-      "match": "^#\\s+.+"
+      "include": "#choice"
     },
     {
-      "name": "markup.bold.choice.narrative-flow",
-      "match": "^\\*\\s+\\[.+\\]"
+      "include": "#effects"
     },
     {
-      "name": "keyword.control.flow.narrative-flow",
-      "match": "->\\s+\\w+"
+      "include": "#flow-control"
     },
     {
-      "name": "variable.parameter.effect.narrative-flow",
-      "match": "~\\s+\\w+\\s+[+-]?\\d+"
+      "include": "#dialogue"
     },
     {
-      "name": "string.quoted.narrative-flow",
-      "begin": "\"",
-      "end": "\""
+      "include": "#comments"
     },
     {
-      "name": "comment.line.narrative-flow",
-      "match": "//.*$"
+      "include": "#variables"
     }
   ],
   "repository": {
-    "keywords": {
+    "event-header": {
       "patterns": [
         {
-          "name": "keyword.control.nhell",
-          "match": "\\b(if|while|for|return)\\b"
+          "name": "entity.name.section.nhell",
+          "match": "^(===)\\s+([\\w_]+)\\s+(===)\\s*$",
+          "captures": {
+            "1": { "name": "punctuation.definition.heading.begin.nhell" },
+            "2": { "name": "entity.name.function.event.nhell" },
+            "3": { "name": "punctuation.definition.heading.end.nhell" }
+          }
         }
       ]
     },
-    "strings": {
-      "name": "string.quoted.double.nhell",
-      "begin": "\"",
-      "end": "\"",
+    "metadata": {
       "patterns": [
         {
-          "name": "constant.character.escape.nhell",
-          "match": "\\\\."
+          "name": "meta.metadata.nhell",
+          "match": "^(id|author|tags|version|description):\\s*(.+)$",
+          "captures": {
+            "1": { "name": "keyword.other.metadata.nhell" },
+            "2": { "name": "string.unquoted.metadata.nhell" }
+          }
+        }
+      ]
+    },
+    "title": {
+      "patterns": [
+        {
+          "name": "markup.heading.nhell",
+          "match": "^(#)\\s+(.+)$",
+          "captures": {
+            "1": { "name": "punctuation.definition.heading.nhell" },
+            "2": { "name": "entity.name.section.title.nhell" }
+          }
+        }
+      ]
+    },
+    "dialogue": {
+      "patterns": [
+        {
+          "name": "meta.dialogue.nhell",
+          "match": "^(\\w+):\\s*\"([^\"]*)\"\\s*$",
+          "captures": {
+            "1": { "name": "entity.name.type.character.nhell" },
+            "2": { "name": "string.quoted.dialogue.nhell" }
+          }
+        },
+        {
+          "name": "meta.dialogue.nhell",
+          "match": "^(\\w+):\\s*'([^']*)'\\s*$",
+          "captures": {
+            "1": { "name": "entity.name.type.character.nhell" },
+            "2": { "name": "string.quoted.dialogue.nhell" }
+          }
+        },
+        {
+          "name": "meta.dialogue.unquoted.nhell",
+          "match": "^(\\w+):\\s+(.+)$",
+          "captures": {
+            "1": { "name": "entity.name.type.character.nhell" },
+            "2": { "name": "string.unquoted.dialogue.nhell" }
+          }
+        }
+      ]
+    },
+    "choice": {
+      "patterns": [
+        {
+          "name": "meta.choice.nhell",
+          "begin": "^(\\*)\\s*(\\[)",
+          "end": "(\\])",
+          "beginCaptures": {
+            "1": { "name": "punctuation.definition.list.nhell" },
+            "2": { "name": "punctuation.definition.choice.begin.nhell" }
+          },
+          "endCaptures": {
+            "1": { "name": "punctuation.definition.choice.end.nhell" }
+          },
+          "contentName": "string.choice.text.nhell",
+          "patterns": [
+            {
+              "name": "constant.character.escape.nhell",
+              "match": "\\\\."
+            }
+          ]
+        }
+      ]
+    },
+    "effects": {
+      "patterns": [
+        {
+          "name": "meta.effect.numeric.nhell",
+          "match": "^\\s*(~)\\s+(\\w+)\\s*([+-]?\\d+)\\s*$",
+          "captures": {
+            "1": { "name": "keyword.operator.effect.nhell" },
+            "2": { "name": "variable.parameter.nhell" },
+            "3": { "name": "constant.numeric.nhell" }
+          }
+        },
+        {
+          "name": "meta.effect.flag.nhell",
+          "match": "^\\s*(~)\\s+(flag|promise|set):\\s*(\\w+)\\s*$",
+          "captures": {
+            "1": { "name": "keyword.operator.effect.nhell" },
+            "2": { "name": "storage.type.effect.nhell" },
+            "3": { "name": "variable.other.flag.nhell" }
+          }
+        }
+      ]
+    },
+    "flow-control": {
+      "patterns": [
+        {
+          "name": "meta.flow.goto.nhell",
+          "match": "(->)\\s+(\\w+)",
+          "captures": {
+            "1": { "name": "keyword.operator.arrow.nhell" },
+            "2": { "name": "entity.name.label.nhell" }
+          }
+        },
+        {
+          "name": "keyword.control.nhell",
+          "match": "\\b(END|GAME_OVER|START)\\b"
+        }
+      ]
+    },
+    "comments": {
+      "patterns": [
+        {
+          "name": "comment.line.double-slash.nhell",
+          "match": "//.*$"
+        },
+        {
+          "name": "comment.block.nhell",
+          "begin": "/\\*",
+          "end": "\\*/",
+          "patterns": [
+            {
+              "name": "comment.block.nhell",
+              "match": "."
+            }
+          ]
+        }
+      ]
+    },
+    "variables": {
+      "patterns": [
+        {
+          "name": "variable.language.state.nhell",
+          "match": "\\b(family|budget|stress|mood|time|job_security)\\b"
+        },
+        {
+          "name": "constant.numeric.nhell",
+          "match": "\\b\\d+\\b"
+        },
+        {
+          "name": "constant.language.boolean.nhell",
+          "match": "\\b(true|false)\\b"
+        },
+        {
+          "name": "variable.other.state.nhell",
+          "match": "\\{(\\w+)\\}",
+          "captures": {
+            "1": { "name": "variable.other.interpolation.nhell" }
+          }
         }
       ]
     }
-  },
-  "scopeName": "source.nhell"
+  }
 }

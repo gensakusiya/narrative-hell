@@ -1,65 +1,123 @@
-# narrative-hell README
+# Narrative Hell - Story Flow Designer for VSCode
 
-This is the README for your extension "narrative-hell". After writing up a brief description, we recommend including the following sections.
+Visual story designer for games with branching narratives. Write your game's story in a simple text format and see it come to life with syntax highlighting, validation, and visualization.
 
 ## Features
 
-Describe specific features of your extension including screenshots of your extension in action. Image paths are relative to this README file.
+- 🎨 **Syntax Highlighting** - Beautiful colors for events, choices, dialogue, and effects
+- ✅ **Real-time Validation** - Finds dead ends, unreachable events, and broken links
+- 📊 **Story Graph** - Visualize your narrative flow (coming soon)
+- 🔍 **Hover Information** - See what effects and transitions do
+- ⚡ **Quick Actions** - Simulate story paths with CodeLens
 
-For example if there is an image subfolder under your extension project workspace:
+## File Format
 
-\!\[feature X\]\(images/feature-x.png\)
+Create files with `.nhell` or `.nh` extension:
 
-> Tip: Many popular extensions utilize animations. This is an excellent way to show off your extension! We recommend short, focused animations that are easy to follow.
+```nhell
+=== metadata ===
+id: family_crisis
+author: YourName
+version: 1.0
 
-## Requirements
+=== state ===
+family: 70
+budget: 100
+stress: 30
 
-If you have any requirements or dependencies, add a section describing those and how to install and configure them.
+=== start ===
+# Opening Scene
+The phone rings. It's deadline day.
 
-## Extension Settings
+* [Answer eagerly] -> agent_call
+  ~ stress +5
+  ~ time -10
+  
+* [Let it ring] -> missed_opportunity
+  ~ stress -5
+  ~ mood -10
 
-Include if your extension adds any VS Code settings through the `contributes.configuration` extension point.
+=== agent_call ===
+# Agent on the Line
+"I have the perfect player for you!"
 
-For example:
+* [Negotiate] -> negotiation
+  ~ time -30
+  
+* [Hang up] -> END
+  ~ mood -5
+```
 
-This extension contributes the following settings:
+## Syntax Guide
 
-* `myExtension.enable`: Enable/disable this extension.
-* `myExtension.thing`: Set to `blah` to do something.
+### Events
+```
+=== event_name ===
+```
 
-## Known Issues
+### Titles
+```
+# Scene Title
+```
 
-Calling out known issues can help limit users opening duplicate issues against your extension.
+### Dialogue
+```
+Character: "What they say"
+```
 
-## Release Notes
+### Choices
+```
+* [Choice text] -> next_event
+```
 
-Users appreciate release notes as you update your extension.
+### Effects
+```
+~ variable +10   // Increase
+~ variable -5    // Decrease
+~ flag: flag_name // Set flag
+```
 
-### 1.0.0
+### Flow Control
+```
+-> next_event    // Go to event
+-> END          // End story
+```
 
-Initial release of ...
+### Comments
+```
+// Single line comment
+/* Multi-line
+   comment */
+```
 
-### 1.0.1
+## Commands
 
-Fixed issue #.
+- **Show Story Graph** - Visualize your narrative flow
+- **Validate Story Flow** - Check for issues
+- **Simulate from Here** - Test story paths
 
-### 1.1.0
+## Validation Checks
 
-Added features X, Y, and Z.
+The extension automatically checks for:
 
----
+- 🔴 **Missing events** - References to non-existent events
+- 🟡 **Unreachable events** - Events that are never referenced  
+- 🟡 **Dead ends** - Events with no choices or transitions
+- 🔴 **Infinite loops** - Circular references without exit
 
-## Working with Markdown
+## Installation
 
-You can author your README using Visual Studio Code. Here are some useful editor keyboard shortcuts:
+1. Install from VSCode Marketplace (coming soon)
+2. Or build from source:
+   ```bash
+   npm install
+   npm run compile
+   ```
 
-* Split the editor (`Cmd+\` on macOS or `Ctrl+\` on Windows and Linux).
-* Toggle preview (`Shift+Cmd+V` on macOS or `Shift+Ctrl+V` on Windows and Linux).
-* Press `Ctrl+Space` (Windows, Linux, macOS) to see a list of Markdown snippets.
+## Contributing
 
-## For more information
+Found a bug or have a feature request? Open an issue on GitHub!
 
-* [Visual Studio Code's Markdown Support](http://code.visualstudio.com/docs/languages/markdown)
-* [Markdown Syntax Reference](https://help.github.com/articles/markdown-basics/)
+## License
 
-**Enjoy!**
+MIT

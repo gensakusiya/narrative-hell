@@ -1,0 +1,107 @@
+=== metadata ===
+id: family_crisis_chain
+author: YourName
+version: 1.0
+tags: [family, drama, critical]
+
+=== state ===
+family: 70
+budget: 100
+stress: 30
+mood: 50
+
+=== start ===
+# Welcome to Deadline Hell
+// This is the beginning of your nightmare
+You're the manager. Transfer deadline day has begun.
+The phone starts ringing...
+
+* [Answer the phone] -> phone_call
+  ~ stress +5
+  ~ time -10
+  
+* [Ignore it] -> ignore_calls
+  ~ stress -5
+  ~ mood -10
+  
+* [Check emails first] -> email_chaos
+  ~ time -20
+
+=== phone_call ===
+# Agent on Line 1
+Agent: "I have the perfect player for you!"
+"Only €50 million, but you need to decide NOW."
+
+* [Negotiate price] -> negotiation
+  ~ time -30
+  ~ stress +10
+  
+* [Accept immediately] 
+  ~ budget -50
+  ~ mood +20
+  ~ flag: impulsive_buyer
+  -> END
+
+* [Hang up] -> angry_agent
+  ~ mood -5
+
+=== negotiation ===
+# Tough Negotiations
+// The agent is getting impatient
+Agent: "Best I can do is €45 million. Take it or leave it."
+
+* [Take the deal]
+  ~ budget -45
+  ~ mood +15
+  ~ promise: new_signing
+  -> success_signing
+  
+* [Walk away] -> END
+  ~ mood -10
+
+=== family_crisis ===
+# Message from Wife
+Wife: "You missed dinner again. The kids are asking where daddy is."
+"Tommy's match is tomorrow. You promised."
+
+* [Call home immediately]
+  ~ family +5
+  ~ time -20
+  ~ stress +10
+  -> tommy_talk
+  
+* [Send apologetic text]
+  ~ family -10
+  ~ flag: broken_promise
+  -> wife_angry
+  
+* [Deal with it later]
+  ~ family -20
+  ~ stress -5
+  -> END
+
+=== tommy_talk ===
+# Tommy on the Phone
+Tommy: "Dad, will you be at my match tomorrow?"
+"All the other dads will be there..."
+
+* [Promise to be there]
+  ~ family +10
+  ~ promise: tommy_match
+  -> END
+  
+* [Maybe, son]
+  ~ family -15
+  -> END
+
+=== END ===
+# Day Over
+/* Multi-line comment
+   The deadline has passed.
+   Time to face the consequences...
+*/
+Final stats:
+- Family: {family}
+- Budget: €{budget}M
+- Stress: {stress}
+- Mood: {mood}
