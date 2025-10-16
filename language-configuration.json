@@ -1,38 +1,54 @@
 {
-    "comments": {
-        "lineComment": "//",
-        "blockComment": [ "/*", "*/" ]
+  "comments": {
+    "blockComment": ["/*", "*/"]
+  },
+  "indentationRules": {
+    "increaseIndentPattern": "^\\s*(===.*===|<<<.*>>>|\\*.*|@.*)\\s*$",
+    "decreaseIndentPattern": "^\\s*(===.*===|<<<.*>>>)\\s*$"
+  },
+  "folding": {
+    "markers": {
+      "start": "^\\s*<<<\\s*\\w+\\s*>>>",
+      "end": "^\\s*<<<\\s*\\w+\\s*>>>"
+    }
+  },
+  // symbols used as brackets
+  "brackets": [
+    ["{", "}"],
+    ["[", "]"],
+    ["(", ")"],
+    ["<<<", ">>>"]
+  ],
+  // symbols that are auto closed when typing
+  "autoClosingPairs": [
+    ["{", "}"],
+    ["[", "]"],
+    ["(", ")"],
+    ["\"", "\""],
+    ["'", "'"],
+    ["<<<", ">>>"]
+  ],
+  // symbols that can be used to surround a selection
+  "surroundingPairs": [
+    ["{", "}"],
+    ["[", "]"],
+    ["(", ")"],
+    ["\"", "\""],
+    ["'", "'"],
+    ["<<<", ">>>"]
+  ],
+  "onEnterRules": [
+    {
+      "beforeText": "^\\s*\\*\\[.*\\].*$",
+      "action": {
+        "indent": "indent"
+      }
     },
-    "indentationRules": {
-        "increaseIndentPattern": "^\\s*(===.*===|\\*.*)\\s*$",
-        "decreaseIndentPattern": "^\\s*(===.*===)\\s*$"
-    },
-    "folding": {
-        "markers": {
-            "start": "^\\s*===\\s*\\w+\\s*===",
-            "end": "^\\s*===\\s*(END|\\w+)\\s*==="
-        }
-    },
-    // symbols used as brackets
-    "brackets": [
-        ["{", "}"],
-        ["[", "]"],
-        ["(", ")"]
-    ],
-    // symbols that are auto closed when typing
-    "autoClosingPairs": [
-        ["{", "}"],
-        ["[", "]"],
-        ["(", ")"],
-        ["\"", "\""],
-        ["'", "'"]
-    ],
-    // symbols that can be used to surround a selection
-    "surroundingPairs": [
-        ["{", "}"],
-        ["[", "]"],
-        ["(", ")"],
-        ["\"", "\""],
-        ["'", "'"]
-    ]
+    {
+      "beforeText": "^\\w+:\\s*.*$",
+      "action": {
+        "indent": "indent"
+      }
+    }
+  ]
 }

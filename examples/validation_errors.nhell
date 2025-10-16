@@ -1,0 +1,58 @@
+=== metadata ===
+arc: validation_test
+author: test
+
+=== state ===
+energy: 100
+mood: 50
+
+<<< start >>>
+
+You wake up.
+
+*[Get up] -> kitchen
+
+<<< kitchen >>>
+
+You enter the kitchen.
+
+*[Make coffee]
+  ~ has_coffee true
+
+/* ❌ ERROR: DEAD_END - no content after transition without -> */
+
+<<< bedroom >>>
+
+Your bedroom.
+
+*[Check closet] -> missing_beat
+  ~ closet_checked true
+
+/* ❌ ERROR: 'missing_beat' doesn't exist */
+
+<<< bathroom >>>
+
+Bathroom scene.
+
+*[Wash hands] -> hallway
+
+<<< hallway >>>
+
+Long hallway.
+
+*[Go left] -> kitchen
+*[Go right] -> bedroom
+
+<<< unreachable >>>
+/* ⚠️ WARNING: This beat is never referenced */
+
+This beat cannot be reached.
+
+-> END
+
+<<< start >>>
+/* ❌ ERROR: Duplicate beat_id 'start' */
+
+Another start beat.
+
+-> END

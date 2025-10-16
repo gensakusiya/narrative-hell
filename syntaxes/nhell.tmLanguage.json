@@ -4,7 +4,13 @@
   "scopeName": "source.nhell",
   "patterns": [
     {
-      "include": "#event-header"
+      "include": "#section-header"
+    },
+    {
+      "include": "#beat-header"
+    },
+    {
+      "include": "#beat-metadata"
     },
     {
       "include": "#metadata"
@@ -32,24 +38,54 @@
     }
   ],
   "repository": {
-    "event-header": {
+    "section-header": {
+      "comment": "=== metadata === or === state ===",
       "patterns": [
         {
           "name": "entity.name.section.nhell",
-          "match": "^(===)\\s+([\\w_]+)\\s+(===)\\s*$",
+          "match": "^(===)\\s+(metadata|state)\\s+(===)\\s*$",
           "captures": {
-            "1": { "name": "punctuation.definition.heading.begin.nhell" },
-            "2": { "name": "entity.name.function.event.nhell" },
-            "3": { "name": "punctuation.definition.heading.end.nhell" }
+            "1": { "name": "punctuation.definition.section.begin.nhell" },
+            "2": { "name": "keyword.control.section.nhell" },
+            "3": { "name": "punctuation.definition.section.end.nhell" }
+          }
+        }
+      ]
+    },
+    "beat-header": {
+      "comment": "<<< beat_id >>>",
+      "patterns": [
+        {
+          "name": "entity.name.function.beat.nhell",
+          "match": "^(<<<)\\s+([\\w_]+)\\s+(>>>)\\s*$",
+          "captures": {
+            "1": { "name": "punctuation.definition.beat.begin.nhell" },
+            "2": { "name": "entity.name.function.beat.nhell" },
+            "3": { "name": "punctuation.definition.beat.end.nhell" }
+          }
+        }
+      ]
+    },
+    "beat-metadata": {
+      "comment": "@ key: value",
+      "patterns": [
+        {
+          "name": "meta.beat-metadata.nhell",
+          "match": "^(@)\\s+(\\w+):\\s*(.+)$",
+          "captures": {
+            "1": { "name": "punctuation.definition.metadata.nhell" },
+            "2": { "name": "entity.other.attribute-name.nhell" },
+            "3": { "name": "string.unquoted.nhell" }
           }
         }
       ]
     },
     "metadata": {
+      "comment": "arc:, author:, etc in metadata section",
       "patterns": [
         {
           "name": "meta.metadata.nhell",
-          "match": "^(id|author|tags|version|description):\\s*(.+)$",
+          "match": "^(\\w+):\\s*(.+)$",
           "captures": {
             "1": { "name": "keyword.other.metadata.nhell" },
             "2": { "name": "string.unquoted.metadata.nhell" }
@@ -57,60 +93,44 @@
         }
       ]
     },
-    "title": {
-      "patterns": [
-        {
-          "name": "markup.heading.nhell",
-          "match": "^(#)\\s+(.+)$",
-          "captures": {
-            "1": { "name": "punctuation.definition.heading.nhell" },
-            "2": { "name": "entity.name.section.title.nhell" }
-          }
-        }
-      ]
-    },
     "dialogue": {
+      "comment": "Character: dialogue text (multiline)",
       "patterns": [
         {
           "name": "meta.dialogue.nhell",
-          "match": "^(\\w+):\\s*\"([^\"]*)\"\\s*$",
-          "captures": {
-            "1": { "name": "entity.name.type.character.nhell" },
-            "2": { "name": "string.quoted.dialogue.nhell" }
-          }
-        },
-        {
-          "name": "meta.dialogue.nhell",
-          "match": "^(\\w+):\\s*'([^']*)'\\s*$",
-          "captures": {
-            "1": { "name": "entity.name.type.character.nhell" },
-            "2": { "name": "string.quoted.dialogue.nhell" }
-          }
-        },
-        {
-          "name": "meta.dialogue.unquoted.nhell",
-          "match": "^(\\w+):\\s+(.+)$",
-          "captures": {
+          "begin": "^(\\w+):\\s*(.*)$",
+          "end": "^(?!\\s{2,})",
+          "beginCaptures": {
             "1": { "name": "entity.name.type.character.nhell" },
             "2": { "name": "string.unquoted.dialogue.nhell" }
-          }
+          },
+          "patterns": [
+            {
+              "name": "string.unquoted.dialogue.continuation.nhell",
+              "match": "^\\s{2,}(.+)$",
+              "captures": {
+                "1": { "name": "string.unquoted.dialogue.nhell" }
+              }
+            }
+          ]
         }
       ]
     },
-    "choice": {
+    "transition": {
+      "comment": "*[label] -> beat_id (optional)",
       "patterns": [
         {
-          "name": "meta.choice.nhell",
+          "name": "meta.transition.nhell",
           "begin": "^(\\*)\\s*(\\[)",
           "end": "(\\])",
           "beginCaptures": {
-            "1": { "name": "punctuation.definition.list.nhell" },
-            "2": { "name": "punctuation.definition.choice.begin.nhell" }
+            "1": { "name": "keyword.control.transition.nhell" },
+            "2": { "name": "punctuation.definition.transition.begin.nhell" }
           },
           "endCaptures": {
-            "1": { "name": "punctuation.definition.choice.end.nhell" }
+            "1": { "name": "punctuation.definition.transition.end.nhell" }
           },
-          "contentName": "string.choice.text.nhell",
+          "contentName": "string.transition.text.nhell",
           "patterns": [
             {
               "name": "constant.character.escape.nhell",
@@ -121,10 +141,20 @@
       ]
     },
     "effects": {
+      "comment": "~ variable value or ~ variable: value",
       "patterns": [
         {
+          "name": "meta.effect.assignment.nhell",
+          "match": "^\\s*(~)\\s+(\\w+):\\s*(.+)\\s*$",
+          "captures": {
+            "1": { "name": "keyword.operator.effect.nhell" },
+            "2": { "name": "variable.parameter.nhell" },
+            "3": { "name": "constant.other.value.nhell" }
+          }
+        },
+        {
           "name": "meta.effect.numeric.nhell",
-          "match": "^\\s*(~)\\s+(\\w+)\\s*([+-]?\\d+)\\s*$",
+          "match": "^\\s*(~)\\s+(\\w+)\\s+([+-]?\\d+)\\s*$",
           "captures": {
             "1": { "name": "keyword.operator.effect.nhell" },
             "2": { "name": "variable.parameter.nhell" },
@@ -132,12 +162,12 @@
           }
         },
         {
-          "name": "meta.effect.flag.nhell",
-          "match": "^\\s*(~)\\s+(flag|promise|set):\\s*(\\w+)\\s*$",
+          "name": "meta.effect.boolean.nhell",
+          "match": "^\\s*(~)\\s+(\\w+)\\s+(true|false)\\s*$",
           "captures": {
             "1": { "name": "keyword.operator.effect.nhell" },
-            "2": { "name": "storage.type.effect.nhell" },
-            "3": { "name": "variable.other.flag.nhell" }
+            "2": { "name": "variable.parameter.nhell" },
+            "3": { "name": "constant.language.boolean.nhell" }
           }
         }
       ]
@@ -154,16 +184,12 @@
         },
         {
           "name": "keyword.control.nhell",
-          "match": "\\b(END|GAME_OVER|START)\\b"
+          "match": "\\b(END)\\b"
         }
       ]
     },
     "comments": {
       "patterns": [
-        {
-          "name": "comment.line.double-slash.nhell",
-          "match": "//.*$"
-        },
         {
           "name": "comment.block.nhell",
           "begin": "/\\*",
@@ -180,23 +206,12 @@
     "variables": {
       "patterns": [
         {
-          "name": "variable.language.state.nhell",
-          "match": "\\b(family|budget|stress|mood|time|job_security)\\b"
-        },
-        {
           "name": "constant.numeric.nhell",
           "match": "\\b\\d+\\b"
         },
         {
           "name": "constant.language.boolean.nhell",
           "match": "\\b(true|false)\\b"
-        },
-        {
-          "name": "variable.other.state.nhell",
-          "match": "\\{(\\w+)\\}",
-          "captures": {
-            "1": { "name": "variable.other.interpolation.nhell" }
-          }
         }
       ]
     }

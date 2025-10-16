@@ -1,0 +1,207 @@
+=== metadata ===
+arc: morning_routine
+author: player
+version: 1.0
+
+=== state ===
+energy: 80
+mood: 50
+has_breakfast: false
+late_for_work: false
+showered: false
+
+<<< start >>>
+@ time: 07:00
+@ location: bedroom
+
+You wake up to the sound of your alarm.
+The sun is already up.
+
+~ energy -5
+
+Mom: Good morning! Breakfast is ready downstairs!
+
+*[Get up immediately] -> bathroom
+  ~ mood +5
+
+*[Snooze for 10 more minutes] -> snooze_alarm
+  ~ energy +10
+  ~ mood -5
+
+<<< snooze_alarm >>>
+@ time: 07:10
+
+You drift back to sleep...
+
+The alarm rings again, louder this time.
+
+~ late_for_work true
+~ energy +5
+
+-> bathroom
+
+<<< bathroom >>>
+@ time: 07:15
+@ location: bathroom
+
+You stumble into the bathroom.
+
+Brother: Hurry up! I need to get in there too!
+
+*[Quick shower]
+  ~ energy +10
+  ~ showered true
+  ~ mood +5
+
+You feel refreshed after the quick shower.
+
+*[Skip shower]
+  ~ mood -10
+
+You splash some water on your face.
+
+-> kitchen
+
+<<< kitchen >>>
+@ time: 07:25
+@ location: kitchen
+
+Mom is making eggs and toast.
+The smell of coffee fills the air.
+
+Mom: Want some breakfast?
+
+*[Yes, please] -> eat_breakfast
+  ~ mood +10
+
+*[No time, gotta run] -> skip_breakfast
+  ~ mood -5
+
+<<< eat_breakfast >>>
+
+You sit down and enjoy a proper breakfast.
+
+~ has_breakfast true
+~ energy +30
+~ mood +15
+
+Mom: Have a good day at work!
+
+-> leave_home
+
+<<< skip_breakfast >>>
+
+You grab an apple and head for the door.
+
+~ has_breakfast false
+~ energy +5
+
+Mom: At least take something with you!
+
+-> leave_home
+
+<<< leave_home >>>
+@ time: 07:45
+@ location: front_door
+
+You grab your keys and bag.
+
+~ mood +5
+
+/* Check if late */
+*[Run to catch the bus] -> run_to_bus
+*[Walk calmly] -> walk_to_bus
+
+<<< run_to_bus >>>
+@ location: street
+
+You sprint down the street!
+
+~ energy -20
+~ mood -10
+
+You barely catch the bus as it's pulling away.
+
+-> on_bus
+
+<<< walk_to_bus >>>
+@ location: street
+
+You walk at a comfortable pace.
+
+~ energy -5
+~ mood +5
+
+The bus is waiting at the stop.
+
+-> on_bus
+
+<<< on_bus >>>
+@ location: bus
+@ time: 08:00
+
+You find a seat on the bus.
+The city passes by the window.
+
+~ mood +5
+
+*[Listen to music]
+  ~ mood +10
+  ~ energy +5
+
+You put in your earbuds and relax.
+
+*[Review work notes]
+  ~ mood -5
+  ~ energy -10
+
+You go over yesterday's notes.
+
+The bus arrives at your stop.
+
+-> arrive_work
+
+<<< arrive_work >>>
+@ location: office
+@ time: 08:30
+
+You arrive at the office building.
+
+~ energy -5
+
+*[Go straight to desk] -> work_desk
+*[Get coffee first] -> office_coffee
+
+<<< office_coffee >>>
+@ location: break_room
+
+The break room coffee machine hums.
+
+~ has_coffee true
+~ energy +15
+~ mood +10
+
+You pour yourself a cup.
+
+Colleague: Morning! Ready for the big meeting?
+
+You chat briefly about the day ahead.
+
+-> work_desk
+
+<<< work_desk >>>
+@ location: desk
+
+Your desk is covered with papers and sticky notes.
+
+~ mood -5
+
+You boot up your computer and check emails.
+
+*[Dive into work] -> END
+  ~ energy -30
+  ~ mood +20
+
+*[Take a break first] -> END
+  ~ energy +5
+  ~ mood +5
