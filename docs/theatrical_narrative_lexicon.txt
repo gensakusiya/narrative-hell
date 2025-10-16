@@ -1,0 +1,203 @@
+# 🎭 Theatrical Narrative System — Script & Design Lexicon
+
+> *“The game as a stage, each beat a moment of truth.”*
+
+---
+
+## 🩰 I. CORE STRUCTURE — Narrative Architecture
+
+| Term | Definition | Example Usage |
+|------|-------------|----------------|
+| **Production** | The entire interactive narrative — the “theatrical production” representing the game as a whole. | *Production: “Echoes of Glass” — an interactive performance in four acts.* |
+| **Act** | A major narrative division. Each act explores a central theme or dramatic arc. | *Act II: The Reckoning.* |
+| **Scene** | A distinct moment in time or space — a setting where the dramatic situation unfolds. | *Scene 3: The Rooftop at Dusk.* |
+| **Beat** | The smallest unit of dramatic action — a single change, decision, or emotional shift. | *Beat: She decides not to answer the call.* |
+| **Transition** | The movement from one beat or scene to another — triggered by player choice, time, or condition. | *Transition: If trust ≥ 50 → Scene 4.* |
+
+> 💬 *“Acts are thematic. Scenes are situational. Beats are emotional.”*
+
+---
+
+## 🎬 TYPES OF BEATS — Emotional and Structural Functions
+
+| Type | Description | Example |
+|------|--------------|----------|
+| **Decision Beat** | The player or character must choose a path, revealing intent or belief. | *She takes the gun — or walks away.* |
+| **Reaction Beat** | The emotional or physical response to a previous event or revelation. | *He flinches, realizing what he’s done.* |
+| **Revelation Beat** | A truth is exposed — about the world, another character, or the self. | *The letter was never sent.* |
+| **Conflict Beat** | Two opposing forces or desires clash — verbally, emotionally, or physically. | *They argue over the map’s true meaning.* |
+| **Transition Beat** | Serves as connective tissue, guiding pacing or tone between stronger dramatic moments. | *Time passes. The room empties.* |
+| **Silence Beat** | No dialogue — the pause itself carries dramatic weight or meaning. | *They stand facing each other in silence.* |
+
+> 🧩 *Beats can combine, echo, or contradict each other to create rhythm and tension. A scene’s pulse is defined by its sequence of beats.*
+
+---
+
+## 🧍 II. CHARACTER LAYER — Acting Logic
+
+| Term | Definition | Example Usage |
+|------|-------------|----------------|
+| **Role** | The dramatic function of a character — not just who they are, but why they exist in the narrative. | *Role: The Confidant (reveals emotional truth of others).* |
+| **Objective** | What the character wants in a specific scene or beat. | *Objective: Gain her forgiveness.* |
+| **Tactic** | How the character tries to achieve their objective — through dialogue, silence, manipulation, humor, etc. | *Tactic: Deflect with irony.* |
+| **Motivation** | The underlying reason behind a character’s behavior or emotional drive. | *Motivation: Fear of abandonment.* |
+| **Conflict** | The force that opposes the character’s objective — internal or external. | *Conflict: She loves him but knows he’s lying.* |
+
+---
+
+## 🎨 III. DIRECTORIAL LAYER — Stage Composition
+
+| Term | Definition | Example Usage |
+|------|-------------|----------------|
+| **Mise-en-scène** | The visual and spatial arrangement of the scene — where characters stand, how they move, how the world “feels.” | *Mise-en-scène: Narrow corridor, red light, the sound of breath.* |
+| **Rhythm** | The pacing of emotional or physical action. Defines tension and flow. | *Rhythm: Rapid — pause — silence — outburst.* |
+| **Cue** | A signal or trigger for change: an action, sound, or event that prompts reaction or transition. | *Cue: Door slams → Beat ends.* |
+| **Improvisation** | Player agency or procedural change that alters the expected flow of the scene. | *Improvisation: Player chooses to remain silent instead of answering.* |
+
+---
+
+## 📈 IV. VISUAL RHYTHM DIAGRAMS — Scene Pulse Mapping
+
+Visual diagrams can help represent the **emotional and structural rhythm** of a scene or branch. Each Beat forms part of a wave — rising tension, release, and resolution.
+
+### 🎢 1. The Classic Dramatic Wave
+```
+Tension ↑
+        /\         /\       /\
+       /  \  /\   /  \ /\  /  \
+______/_ __\/__\_/____V__\_/____ Time →
+       B1   B2   B3   B4   B5
+```
+- **B1**: Setup — calm, neutral introduction  
+- **B2**: Rising conflict  
+- **B3**: Climax or decision  
+- **B4**: Reaction  
+- **B5**: Resolution / transition
+
+### 🔁 2. Cyclical Emotional Flow
+```
+Emotion Level ↑
+   Joy ──┐      ┌── Despair
+        │◄────►│
+        └──────┘
+         (Beat Loop)
+```
+- Used for **repeating tension cycles**, such as dialogue loops or moral dilemmas.
+
+### ⚡ 3. Interactive Branch Pulse
+```
+       ┌──► Path A (Hope)
+Start ─┤
+       └──► Path B (Doubt)
+```
+Each path represents a **different rhythm curve** — allowing the player to “conduct” the scene’s emotion through choice.
+
+> 🪶 *Visual rhythm mapping allows designers to choreograph emotional flow as if conducting a play — guiding not just story progression, but dramatic resonance.*
+
+---
+
+## 🎭 V. EXAMPLE — Scene Pulse in Practice
+
+**Scene:** “The Rooftop at Dusk”  
+**Context:** Two former allies meet after betrayal.
+
+| Beat | Type | Description | Emotion Curve |
+|------|------|--------------|----------------|
+| **B1: Approach** | Transition | One character waits, the other arrives — tension unspoken. | Low → Rising |
+| **B2: First Words** | Conflict | Accusations surface, tone sharpens. | Rising |
+| **B3: The Reveal** | Revelation | Truth emerges — the betrayal wasn’t personal. | Peak |
+| **B4: Reaction** | Reaction | Silence. One turns away, unsure. | Drop |
+| **B5: Departure** | Transition | The scene closes on unresolved emotion. | Leveling |
+
+### Diagram — Scene Pulse
+```
+Tension ↑
+        /\        /\
+       /  \______/  \____ Time →
+      B1  B2 B3  B4  B5
+```
+
+---
+
+## 🌿 VI. INTERACTIVE BRANCHING VARIANT — “The Rooftop at Dusk”
+
+**Core Premise:** After the revelation (B3), the player chooses whether to forgive or to condemn.
+
+| Beat | Type | Description | Emotional Path |
+|------|------|--------------|----------------|
+| **B1: Approach** | Transition | The waiting tension before confrontation. | Neutral |
+| **B2: Accusation** | Conflict | Harsh words exchanged. | Rising |
+| **B3: The Reveal** | Revelation | The truth emerges: the betrayal was an act of protection. | Peak |
+| **CHOICE** | Decision | Player decides how to respond: *Forgive* or *Reject*. | Split |
+
+### Path A — *Forgive (Hope)*
+| Beat | Type | Description | Emotion |
+|------|------|-------------|----------|
+| **B4A** | Reaction | Quiet acceptance. Words fade into the night. | Gentle Decline |
+| **B5A** | Transition | They part, fragile but at peace. | Resolution |
+
+### Path B — *Reject (Doubt)*
+| Beat | Type | Description | Emotion |
+|------|------|-------------|----------|
+| **B4B** | Conflict | A final outburst — the distance grows permanent. | Sharp Drop |
+| **B5B** | Silence | The rooftop empty, only wind remains. | Stillness |
+
+#### Visual Branch Pulse
+```
+Tension ↑
+        /\        /\
+       /  \______/  \____ Time →
+      B1  B2 B3  B4A/B4B  B5A/B5B
+             ↙      ↘
+        (Hope)    (Doubt)
+```
+> 🧭 *Each branch inherits the emotional velocity of the shared beats but resolves it differently — one through release, one through rupture.*
+
+---
+
+## 🍃 VII. KISHŌTENKETSU VARIANT — “The Rooftop at Dusk (静の構成)”
+
+A reinterpretation of the same scene using **起承転結 (Kishōtenketsu)** — a four-part Japanese structure emphasizing *development without direct conflict*.
+
+| Stage | Name | Description | Function |
+|--------|------|-------------|-----------|
+| **起 (Ki)** | Introduction | A figure stands on the rooftop, waiting as the city hums below. | Establish world & tone |
+| **承 (Shō)** | Development | The second arrives. They speak softly — not of betrayal, but of memory. | Deepen relationship |
+| **転 (Ten)** | Twist | A gust of wind reveals an envelope — unopened, with both names on it. | Moment of realization / shift in perception |
+| **結 (Ketsu)** | Resolution | Neither speaks. The letter remains unopened; the moment, complete in stillness. | Emotional synthesis |
+
+### Diagram — Non-Conflict Emotional Flow
+```
+Tension ↑
+       /‾‾‾\       (gentle rise)
+      /     \_ _ _ (revelation plateau)
+_____/                 Time →
+     Ki  Shō  Ten  Ketsu
+```
+
+> 🍂 *No argument, no direct clash — meaning arises from contrast and stillness. The emotional rhythm is contemplative rather than confrontational.*
+
+---
+
+## ⚙️ VIII. STRUCTURAL LOGIC — How it Connects
+
+```plaintext
+Production
+ └── Act I: Arrival
+      ├── Scene 1: The Gate
+      │     ├── Beat 1: Approach
+      │     ├── Beat 2: Hesitation
+      │     └── Beat 3: Entry
+      ├── Scene 2: The Chamber
+      │     ├── Beat 1: Observation
+      │     ├── Beat 2: Confrontation
+      │     └── Beat 3: Decision
+```
+
+---
+
+## 🧠 IX. DESIGN PHILOSOPHY
+
+> 🎭 *The player is both spectator and performer.*  
+> Every **Beat** represents a decision, not only of the character — but of the **audience-participant**.  
+> The system does not simulate “story progression,” it **stages** it — through rhythm, intention, and reaction.
