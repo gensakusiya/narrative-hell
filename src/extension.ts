@@ -1,6 +1,10 @@
 import * as vscode from 'vscode';
-import { getGraphWebviewContent } from './view/GraphWebview';
 import { validateDocument } from './diagnostics';
+import { DocumentStateManager } from './state/DocumentStateManager';
+import { GraphPanel } from './view/GraphPanel';
+import { Beat } from './types/beat';
+
+const stateManager = new DocumentStateManager();
 
 export function activate(context: vscode.ExtensionContext) {
   console.log('Narrative Hell extension is now active!');
@@ -11,14 +15,21 @@ export function activate(context: vscode.ExtensionContext) {
   if (vscode.window.activeTextEditor) {
     updateDiagnostics(
       vscode.window.activeTextEditor.document,
-      diagnosticCollection
+      diagnosticCollection,
+      stateManager.getBeats(vscode.window.activeTextEditor.document)
     );
   }
 
   context.subscriptions.push(
     vscode.window.onDidChangeActiveTextEditor((editor) => {
       if (editor && editor.document.languageId === 'nhell') {
-        updateDiagnostics(editor.document, diagnosticCollection);
+        stateManager.updateBeats(editor.document);
+
+        const beats = stateManager.getBeats(editor.document);
+
+        updateDiagnostics(editor.document, diagnosticCollection, beats);
+
+        GraphPanel.currentPanel?.updateGraph(beats);
       }
     })
   );
@@ -26,7 +37,17 @@ export function activate(context: vscode.ExtensionContext) {
   context.subscriptions.push(
     vscode.workspace.onDidChangeTextDocument((event) => {
       if (event.document.languageId === 'nhell') {
-        updateDiagnostics(event.document, diagnosticCollection);
+        stateManager.updateBeats(event.document);
+
+        const beats = stateManager.getBeats(event.document);
+
+        updateDiagnostics(event.document, diagnosticCollection, beats);
+
+        if (GraphPanel.currentPanel) {
+          GraphPanel.currentPanel.updateGraph(beats);
+        } else {
+          console.log('[Extension] GraphPanel not open, skipping update');
+        }
       }
     })
   );
@@ -34,36 +55,20 @@ export function activate(context: vscode.ExtensionContext) {
   const showGraphCommand = vscode.commands.registerCommand(
     'narrative-hell.showGraph',
     () => {
-      const panel = vscode.window.createWebviewPanel(
-        'narrativeGraph',
-        'Story Flow Graph',
-        vscode.ViewColumn.Beside,
-        {
-          enableScripts: true,
-        }
-      );
+      const editor = vscode.window.activeTextEditor;
+      if (!editor) {
+        return;
+      }
 
-      panel.webview.html = getGraphWebviewContent();
+      const beats = stateManager.getBeats(editor.document);
+      GraphPanel.createOrShow(context.extensionUri, beats);
     }
   );
 
   const validateCommand = vscode.commands.registerCommand(
     'narrative-hell.validate',
     () => {
-      const editor = vscode.window.activeTextEditor;
-      if (!editor || editor.document.languageId !== 'nhell') {
-        vscode.window.showWarningMessage('Please open a .nhell file first');
-        return;
-      }
-
-      const issues = validateDocument(editor.document);
-      if (issues.length === 0) {
-        vscode.window.showInformationMessage('✅ No issues found!');
-      } else {
-        vscode.window.showWarningMessage(
-          `Found ${issues.length} issues. Check Problems panel.`
-        );
-      }
+      // todo: Implement manual validation trigger if needed
     }
   );
 
@@ -74,26 +79,10 @@ export function activate(context: vscode.ExtensionContext) {
   );
 
   vscode.languages.registerCodeLensProvider('nhell', {
-    provideCodeLenses(document: vscode.TextDocument): vscode.CodeLens[] {
+    provideCodeLenses(_document: vscode.TextDocument): vscode.CodeLens[] {
       const lenses: vscode.CodeLens[] = [];
-      const text = document.getText();
-      const eventRegex = /^===\s+(\w+)\s+===/gm;
 
-      let match;
-      while ((match = eventRegex.exec(text)) !== null) {
-        const line = document.positionAt(match.index).line;
-        const range = new vscode.Range(line, 0, line, match[0].length);
-
-        if (match[1] !== 'metadata' && match[1] !== 'state') {
-          lenses.push(
-            new vscode.CodeLens(range, {
-              title: '▶ Simulate from here',
-              command: 'narrative-hell.simulate',
-              arguments: [match[1]],
-            })
-          );
-        }
-      }
+      // todo: Add CodeLenses based on document content
 
       return lenses;
     },
@@ -101,29 +90,10 @@ export function activate(context: vscode.ExtensionContext) {
 
   vscode.languages.registerHoverProvider('nhell', {
     provideHover(
-      document: vscode.TextDocument,
-      position: vscode.Position
+      _document: vscode.TextDocument,
+      _position: vscode.Position
     ): vscode.Hover | null {
-      const line = document.lineAt(position).text;
-
-      // Hover для эффектов
-      const effectMatch = /~\s+(\w+)\s+([+-]?\d+)/.exec(line);
-      if (effectMatch) {
-        const [, stat, value] = effectMatch;
-        const change = parseInt(value);
-        const emoji = change > 0 ? '📈' : change < 0 ? '📉' : '➡️';
-        return new vscode.Hover(
-          `${emoji} **${stat}** will change by **${
-            change > 0 ? '+' : ''
-          }${change}**`
-        );
-      }
-
-      // Hover для переходов
-      const gotoMatch = /->\s+(\w+)/.exec(line);
-      if (gotoMatch) {
-        return new vscode.Hover(`🔀 Goes to event: **${gotoMatch[1]}**`);
-      }
+      // todo: Provide hover information based on line content
 
       return null;
     },
@@ -132,14 +102,15 @@ export function activate(context: vscode.ExtensionContext) {
 
 function updateDiagnostics(
   document: vscode.TextDocument,
-  collection: vscode.DiagnosticCollection
+  collection: vscode.DiagnosticCollection,
+  beats: Map<string, Beat>
 ): void {
   if (document.languageId !== 'nhell') {
     return;
   }
 
   const diagnostics: vscode.Diagnostic[] = [];
-  const issues = validateDocument(document);
+  const issues = validateDocument(beats, document.getText());
 
   for (const issue of issues) {
     const diagnostic = new vscode.Diagnostic(
