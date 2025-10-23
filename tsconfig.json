@@ -5,7 +5,7 @@
     "target": "esnext",
     "lib": ["esnext", "DOM"],
     "sourceMap": true,
-    "rootDir": "src",
+    "rootDir": ".",
     "strict": true,
     "noImplicitReturns": true,
     // "noFallthroughCasesInSwitch": true, /* Report errors for fallthrough cases in switch statement. */
