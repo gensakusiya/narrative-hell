@@ -1,0 +1,8 @@
+.node {
+  background: #1e1e1e;
+  border: 1px solid #333;
+  border-radius: 5px;
+  padding: 10px;
+  color: #fff;
+  font-family: Arial, sans-serif;
+}
