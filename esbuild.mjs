@@ -1,4 +1,5 @@
 import { context } from 'esbuild';
+import { esbuildPluginTailwindcss } from 'esbuild-plugin-tailwindcss';
 
 const production = process.argv.includes('--production');
 const watch = process.argv.includes('--watch');
@@ -37,14 +38,11 @@ async function main() {
     outfile: 'dist/extension.js',
     external: ['vscode'],
     logLevel: 'silent',
-    plugins: [
-      /* add to the end of plugins array */
-      esbuildProblemMatcherPlugin,
-    ],
+    plugins: [esbuildProblemMatcherPlugin],
   });
 
   const webviewCtx = await context({
-    entryPoints: ['src/webview/index.tsx'],
+    entryPoints: ['src/view/webview/index.tsx'],
     bundle: true,
     format: 'iife',
     minify: production,
@@ -54,10 +52,7 @@ async function main() {
     external: [],
     outfile: 'dist/webview.js',
     logLevel: 'silent',
-    plugins: [
-      /* add to the end of plugins array */
-      esbuildProblemMatcherPlugin,
-    ],
+    plugins: [esbuildPluginTailwindcss, esbuildProblemMatcherPlugin],
   });
 
   if (watch) {

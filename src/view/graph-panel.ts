@@ -1,5 +1,6 @@
 import * as vscode from 'vscode';
 import { Beat } from '../types/beat';
+import { convertToGraphData } from './convert-to-graph';
 
 export class GraphPanel {
   public static currentPanel: GraphPanel | undefined;
@@ -12,6 +13,8 @@ export class GraphPanel {
     beats: Map<string, Beat>
   ) {
     const column = vscode.ViewColumn.Beside;
+
+    console.log('[GraphPanel] ✅ Creating or showing graph panel', beats);
 
     if (GraphPanel.currentPanel) {
       GraphPanel.currentPanel._panel.reveal(column);
@@ -80,6 +83,10 @@ export class GraphPanel {
       vscode.Uri.joinPath(this._extensionUri, 'dist', 'webview.js')
     );
 
+    const mainCss = this._panel.webview.asWebviewUri(
+      vscode.Uri.joinPath(this._extensionUri, 'dist', 'webview.css')
+    );
+
     const reactFlowCss =
       'https://cdn.jsdelivr.net/npm/@xyflow/react@12/dist/style.css';
 
@@ -88,6 +95,7 @@ export class GraphPanel {
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="${mainCss}">
     <link rel="stylesheet" href="${reactFlowCss}">
     <title>Story Graph</title>
     <style>
@@ -128,28 +136,11 @@ export class GraphPanel {
   }
 
   public updateGraph(beats: Map<string, Beat>) {
-    const graphData = this._beatsToGraphData(beats);
+    const data = convertToGraphData(beats, new Map());
+
     this._panel.webview.postMessage({
       type: 'updateGraph',
-      data: graphData,
+      data,
     });
-  }
-
-  private _beatsToGraphData(beats: Map<string, Beat>) {
-    const nodes = Array.from(beats.values()).map((beat) => ({
-      id: beat.name,
-      label: beat.name,
-      data: { label: beat.name },
-    }));
-
-    const edges = Array.from(beats.values()).flatMap((beat) =>
-      beat.transitions.map((t) => ({
-        id: `${beat.name}-${t.target}`,
-        source: beat.name,
-        target: t.target,
-      }))
-    );
-
-    return { nodes, edges };
   }
 }

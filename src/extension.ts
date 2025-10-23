@@ -1,7 +1,7 @@
 import * as vscode from 'vscode';
 import { validateDocument } from './diagnostics';
-import { DocumentStateManager } from './state/DocumentStateManager';
-import { GraphPanel } from './view/GraphPanel';
+import { DocumentStateManager } from './state/document-state-manager';
+import { GraphPanel } from './view/graph-panel';
 import { Beat } from './types/beat';
 
 const stateManager = new DocumentStateManager();
@@ -61,6 +61,7 @@ export function activate(context: vscode.ExtensionContext) {
       }
 
       const beats = stateManager.getBeats(editor.document);
+
       GraphPanel.createOrShow(context.extensionUri, beats);
     }
   );
