@@ -5,7 +5,7 @@ export default defineConfig({
     lib: {
       entry: './src/extension.ts',
       formats: ['cjs'],
-      fileName: 'extension',
+      fileName: () => 'extension.js',
     },
     rollupOptions: {
       external: ['vscode'],

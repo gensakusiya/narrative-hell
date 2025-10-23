@@ -1,0 +1,19 @@
+{
+  "name": "@narrative-hell/extension",
+  "version": "0.0.1",
+  "private": true,
+  "main": "dist/extension.js",
+  "scripts": {
+    "build": "vite build",
+    "watch": "vite build --watch",
+    "type-check": "tsc --noEmit"
+  },
+  "devDependencies": {
+    "@types/node": "24.x",
+    "@types/vscode": "^1.104.0",
+    "@typescript-eslint/eslint-plugin": "^8.45.0",
+    "@typescript-eslint/parser": "^8.45.0",
+    "typescript": "^5.9.3",
+    "vite": "^7.1.12"
+  }
+}
