@@ -11,7 +11,7 @@ export default defineConfig({
       external: ['vscode'],
     },
     sourcemap: true,
-    outDir: 'dist',
+    outDir: '../../dist',
     minify: process.env.NODE_ENV === 'production',
   },
 });

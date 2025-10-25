@@ -1,6 +1,7 @@
 import * as vscode from 'vscode';
 import { Beat } from '../types/beat';
 import { convertToGraphData } from './convert-to-graph';
+import { getNonce, getUri } from './utils';
 
 export class GraphPanel {
   public static currentPanel: GraphPanel | undefined;
@@ -71,55 +72,40 @@ export class GraphPanel {
       return;
     }
 
-    // const document = editor.document;
-    // const text = document.getText();
-    // const lines = text.split('\n');
-
     console.log(`Jumping to beat: ${beatName}`);
   }
 
   private _getWebviewContent(): string {
-    const scriptUri = this._panel.webview.asWebviewUri(
-      vscode.Uri.joinPath(this._extensionUri, 'dist', 'webview.js')
-    );
+    const scriptUri = getUri(this._panel.webview, this._extensionUri, [
+      'dist',
+      'webview',
+      'webview.js',
+    ]);
 
-    const mainCss = this._panel.webview.asWebviewUri(
-      vscode.Uri.joinPath(this._extensionUri, 'dist', 'webview.css')
-    );
+    const stylesUri = getUri(this._panel.webview, this._extensionUri, [
+      'dist',
+      'webview',
+      'webview.css',
+    ]);
 
-    const reactFlowCss =
-      'https://cdn.jsdelivr.net/npm/@xyflow/react@12/dist/style.css';
+    const nonce = getNonce();
 
-    return `<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="${mainCss}">
-    <link rel="stylesheet" href="${reactFlowCss}">
-    <title>Story Graph</title>
-    <style>
-      * { margin: 0; padding: 0; box-sizing: border-box; }
-      html, body, #root { 
-        width: 100%; 
-        height: 100vh; 
-        overflow: hidden;
-        background: var(--vscode-editor-background);
-        color: var(--vscode-editor-foreground);
-      }
-    </style>
-    <script>
-      window.messageQueue = [];
-      window.addEventListener('message', (event) => {
-        window.messageQueue.push(event.data);
-      });
-    </script>
-</head>
-<body>
-    <div id="root"></div>
-    <script src="${scriptUri}"></script>
-</body>
-</html>`;
+    return `
+    <!DOCTYPE html>
+    <html lang="en">
+      <head>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <meta http-equiv="Content-Security-Policy" content="default-src 'none'; style-src ${this._panel.webview.cspSource}; script-src 'nonce-${nonce}';">
+        <link rel="stylesheet" type="text/css" href="${stylesUri}">
+        <title>Todo</title>
+      </head>
+      <body>
+        <div id="root"></div>
+        <script type="module" nonce="${nonce}" src="${scriptUri}"></script>
+      </body>
+    </html>
+    `;
   }
 
   public dispose() {

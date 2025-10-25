@@ -1,7 +1,7 @@
 import * as vscode from 'vscode';
 import { validateDocument } from './diagnostics';
 import { DocumentStateManager } from './state/document-state-manager';
-import { GraphPanel } from './view/graph-panel';
+import { GraphPanel } from './panel';
 import { Beat } from './types/beat';
 
 const stateManager = new DocumentStateManager();
