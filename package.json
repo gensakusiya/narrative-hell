@@ -20,7 +20,7 @@
     "quest",
     "dialogue"
   ],
-  "main": "./packages/extension/dist/extension.js",
+  "main": "./dist/extension.js",
   "contributes": {
     "languages": [
       {
@@ -76,6 +76,7 @@
   },
   "scripts": {
     "vscode:prepublish": "pnpm run build",
+    "dev": "pnpm -r dev",
     "build": "pnpm -r build",
     "watch": "pnpm -r --parallel watch",
     "lint": "eslint src",
