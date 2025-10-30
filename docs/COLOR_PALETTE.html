@@ -1,0 +1,724 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>🎨 Color palette - Narrative Hell</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #1a1a2e 0%, #16213e 100%);
+            color: #e0e0e0;
+            padding: 40px 20px;
+            min-height: 100vh;
+        }
+
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+
+        h1 {
+            text-align: center;
+            font-size: 2.5em;
+            margin-bottom: 10px;
+            background: linear-gradient(135deg, #7CB342, #E8B4C8, #4A90A4);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .subtitle {
+            text-align: center;
+            font-size: 1.1em;
+            color: #888;
+            margin-bottom: 40px;
+        }
+
+        .palette-section {
+            margin-bottom: 60px;
+        }
+
+        .section-title {
+            font-size: 1.8em;
+            margin-bottom: 30px;
+            padding-bottom: 15px;
+            border-bottom: 2px solid #4A90A4;
+            color: #4A90A4;
+        }
+
+        .palette-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 30px;
+            margin-bottom: 40px;
+        }
+
+        .color-card {
+            background: rgba(45, 65, 95, 0.5);
+            border: 1px solid rgba(74, 144, 164, 0.3);
+            border-radius: 12px;
+            overflow: hidden;
+            backdrop-filter: blur(10px);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            cursor: pointer;
+        }
+
+        .color-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+            border-color: rgba(74, 144, 164, 0.6);
+        }
+
+        .color-sample {
+            height: 150px;
+            width: 100%;
+            display: flex;
+            align-items: flex-end;
+            justify-content: center;
+            padding-bottom: 10px;
+            position: relative;
+            transition: all 0.3s ease;
+        }
+
+        .color-info {
+            padding: 20px;
+            background: rgba(30, 41, 59, 0.8);
+        }
+
+        .color-name {
+            font-size: 1.3em;
+            font-weight: 600;
+            margin-bottom: 10px;
+            color: #fff;
+        }
+
+        .color-emoji {
+            margin-right: 8px;
+        }
+
+        .color-hex {
+            font-family: 'Courier New', monospace;
+            font-size: 1.1em;
+            color: #4A90A4;
+            margin-bottom: 8px;
+            word-break: break-all;
+            cursor: pointer;
+        }
+
+        .color-hex:hover {
+            color: #6ba5c4;
+        }
+
+        .color-rgb {
+            font-size: 0.9em;
+            color: #888;
+            margin-bottom: 8px;
+            font-family: 'Courier New', monospace;
+        }
+
+        .color-hsl {
+            font-size: 0.9em;
+            color: #888;
+            margin-bottom: 12px;
+            font-family: 'Courier New', monospace;
+        }
+
+        .color-usage {
+            background: rgba(74, 144, 164, 0.1);
+            padding: 10px;
+            border-radius: 6px;
+            font-size: 0.9em;
+            color: #a0d4e6;
+            border-left: 3px solid #4A90A4;
+        }
+
+        .status-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 20px;
+            margin-bottom: 40px;
+        }
+
+        .status-card {
+            background: rgba(45, 65, 95, 0.5);
+            border: 1px solid rgba(74, 144, 164, 0.3);
+            border-radius: 12px;
+            overflow: hidden;
+            backdrop-filter: blur(10px);
+        }
+
+        .status-preview {
+            padding: 30px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            min-height: 150px;
+        }
+
+        .node-preview {
+            padding: 12px 24px;
+            border-radius: 8px;
+            border: 2px solid;
+            font-weight: 600;
+            text-align: center;
+            font-size: 0.95em;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+        }
+
+        .node-start {
+            background-color: #7CB342;
+            border-color: #689F38;
+            color: #1b5e20;
+        }
+
+        .node-end {
+            background-color: rgba(236, 212, 179, 0.85);
+            border-color: rgba(200, 124, 102, 0.7);
+            color: #3e2723;
+        }
+
+        .node-normal {
+            background-color: #E8B4C8;
+            border-color: #D291B8;
+            color: #4a148c;
+        }
+
+        .node-unreachable {
+            background-color: rgba(232, 180, 200, 0.4);
+            border-color: rgba(210, 145, 184, 0.5);
+            color: rgba(74, 20, 140, 0.5);
+            opacity: 0.55;
+        }
+
+        .node-error {
+            background-color: #E8B4C8;
+            border-color: #C85A54;
+            border-width: 3px;
+            color: #4a148c;
+        }
+
+        .status-info {
+            padding: 20px;
+            background: rgba(30, 41, 59, 0.8);
+        }
+
+        .status-name {
+            font-size: 1.2em;
+            font-weight: 600;
+            margin-bottom: 8px;
+            color: #fff;
+        }
+
+        .status-desc {
+            font-size: 0.9em;
+            color: #a0d4e6;
+            line-height: 1.5;
+        }
+
+        .edge-section {
+            background: rgba(45, 65, 95, 0.5);
+            border: 1px solid rgba(74, 144, 164, 0.3);
+            border-radius: 12px;
+            padding: 30px;
+            backdrop-filter: blur(10px);
+            margin-bottom: 40px;
+        }
+
+        .edge-types {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 30px;
+        }
+
+        .edge-type {
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+        }
+
+        .edge-demo {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            height: 100px;
+            background: rgba(30, 41, 59, 0.8);
+            border-radius: 8px;
+            position: relative;
+            overflow: hidden;
+        }
+
+        svg {
+            width: 100%;
+            height: 100%;
+        }
+
+        .edge-info {
+            background: rgba(30, 41, 59, 0.8);
+            padding: 15px;
+            border-radius: 8px;
+            border-left: 3px solid #4A90A4;
+        }
+
+        .edge-name {
+            font-weight: 600;
+            margin-bottom: 5px;
+            color: #fff;
+        }
+
+        .edge-desc {
+            font-size: 0.9em;
+            color: #888;
+        }
+
+        .table-section {
+            background: rgba(45, 65, 95, 0.5);
+            border: 1px solid rgba(74, 144, 164, 0.3);
+            border-radius: 12px;
+            padding: 30px;
+            backdrop-filter: blur(10px);
+            margin-bottom: 40px;
+            overflow-x: auto;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 20px;
+        }
+
+        th, td {
+            padding: 15px;
+            text-align: left;
+            border-bottom: 1px solid rgba(74, 144, 164, 0.2);
+        }
+
+        th {
+            background: rgba(74, 144, 164, 0.1);
+            color: #4A90A4;
+            font-weight: 600;
+        }
+
+        tr:hover {
+            background: rgba(74, 144, 164, 0.05);
+        }
+
+        .color-swatch {
+            width: 40px;
+            height: 40px;
+            border-radius: 6px;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            display: inline-block;
+            vertical-align: middle;
+            margin-right: 10px;
+            cursor: pointer;
+            transition: transform 0.2s;
+        }
+
+        .color-swatch:hover {
+            transform: scale(1.1);
+        }
+
+        .copy-notification {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            background: #4A90A4;
+            color: white;
+            padding: 15px 20px;
+            border-radius: 8px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+            opacity: 0;
+            transform: translateY(20px);
+            transition: all 0.3s ease;
+            pointer-events: none;
+            z-index: 1000;
+        }
+
+        .copy-notification.show {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        footer {
+            text-align: center;
+            padding: 40px 20px;
+            color: #666;
+            border-top: 1px solid rgba(74, 144, 164, 0.2);
+            margin-top: 60px;
+        }
+
+        .info-box {
+            background: rgba(74, 144, 164, 0.1);
+            border-left: 4px solid #4A90A4;
+            padding: 20px;
+            border-radius: 8px;
+            margin-bottom: 20px;
+            color: #a0d4e6;
+        }
+
+        .info-box strong {
+            color: #4A90A4;
+        }
+
+        pre {
+            background: rgba(30, 41, 59, 0.8);
+            padding: 20px;
+            border-radius: 8px;
+            overflow-x: auto;
+            color: #4A90A4;
+            font-family: 'Courier New', monospace;
+            line-height: 1.6;
+        }
+
+        @media (max-width: 768px) {
+            h1 {
+                font-size: 1.8em;
+            }
+
+            .section-title {
+                font-size: 1.4em;
+            }
+
+            .palette-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .edge-types {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>🎨 Color palette - Narrative Hell</h1>
+        <p class="subtitle">Inspired by Studio Ghibli and traditional Japanese watercolor</p>
+
+        <section class="palette-section">
+            <h2 class="section-title">🌈 Base colors</h2>
+            
+            <div class="palette-grid">
+                <!-- START GREEN -->
+                <div class="color-card" onclick="copyToClipboard('#7CB342')">
+                    <div class="color-sample" style="background-color: #7CB342;"></div>
+                    <div class="color-info">
+                        <div class="color-name">
+                            <span class="color-emoji">🌿</span>START
+                        </div>
+                        <div class="color-hex">#7CB342</div>
+                        <div class="color-rgb">RGB: 124, 179, 66</div>
+                        <div class="color-hsl">HSL: 89°, 47%, 48%</div>
+                        <div class="color-usage">Start of the story, growth, new beginnings</div>
+                    </div>
+                </div>
+
+                <!-- END BEIGE -->
+                <div class="color-card" onclick="copyToClipboard('#ecd4b3')">
+                    <div class="color-sample" style="background-color: #ecd4b3;"></div>
+                    <div class="color-info">
+                        <div class="color-name">
+                            <span class="color-emoji">🏁</span>END
+                        </div>
+                        <div class="color-hex">#ecd4b3</div>
+                        <div class="color-rgb">RGB: 236, 212, 179</div>
+                        <div class="color-hsl">HSL: 26°, 71%, 81%</div>
+                        <div class="color-usage">End of the story, conclusion (85% opacity)</div>
+                    </div>
+                </div>
+
+                <!-- NORMAL PINK -->
+                <div class="color-card" onclick="copyToClipboard('#E8B4C8')">
+                    <div class="color-sample" style="background-color: #E8B4C8;"></div>
+                    <div class="color-info">
+                        <div class="color-name">
+                            <span class="color-emoji">🌸</span>NORMAL
+                        </div>
+                        <div class="color-hex">#E8B4C8</div>
+                        <div class="color-rgb">RGB: 232, 180, 200</div>
+                        <div class="color-hsl">HSL: 345°, 63%, 81%</div>
+                        <div class="color-usage">Main content, harmony, narrative</div>
+                    </div>
+                </div>
+
+                <!-- EDGE TEAL -->
+                <div class="color-card" onclick="copyToClipboard('#4A90A4')">
+                    <div class="color-sample" style="background-color: #4A90A4;"></div>
+                    <div class="color-info">
+                        <div class="color-name">
+                            <span class="color-emoji">🌊</span>EDGE
+                        </div>
+                        <div class="color-hex">#4A90A4</div>
+                        <div class="color-rgb">RGB: 74, 144, 164</div>
+                        <div class="color-hsl">HSL: 195°, 37%, 47%</div>
+                        <div class="color-usage">Edges, connections, choices, interactive elements</div>
+                    </div>
+                </div>
+
+                <!-- ERROR RED -->
+                <div class="color-card" onclick="copyToClipboard('#C85A54')">
+                    <div class="color-sample" style="background-color: #C85A54;"></div>
+                    <div class="color-info">
+                        <div class="color-name">
+                            <span class="color-emoji">⚠️</span>ERROR
+                        </div>
+                        <div class="color-hex">#C85A54</div>
+                        <div class="color-rgb">RGB: 200, 90, 84</div>
+                        <div class="color-hsl">HSL: 5°, 50%, 56%</div>
+                        <div class="color-usage">Errors, structural issues (muted red)</div>
+                    </div>
+                </div>
+
+                <!-- HOVER ACCENT -->
+                <div class="color-card" onclick="copyToClipboard('#E8DCC8')">
+                    <div class="color-sample" style="background-color: #E8DCC8;"></div>
+                    <div class="color-info">
+                        <div class="color-name">
+                            <span class="color-emoji">⭐</span>HOVER
+                        </div>
+                        <div class="color-hex">#E8DCC8</div>
+                        <div class="color-rgb">RGB: 232, 220, 200</div>
+                        <div class="color-hsl">HSL: 32°, 56%, 85%</div>
+                        <div class="color-usage">Highlighting, interactive states</div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section class="palette-section">
+            <h2 class="section-title">📍 Node Status</h2>
+            
+            <div class="status-grid">
+                <!-- START STATUS -->
+                <div class="status-card">
+                    <div class="status-preview">
+                        <div class="node-preview node-start">START</div>
+                    </div>
+                    <div class="status-info">
+                        <div class="status-name">🟢 START</div>
+                        <div class="status-desc">
+                            Start of the story. Green color symbolizes growth and new opportunities.
+                        </div>
+                    </div>
+                </div>
+
+                <!-- END STATUS -->
+                <div class="status-card">
+                    <div class="status-preview">
+                        <div class="node-preview node-end">END</div>
+                    </div>
+                    <div class="status-info">
+                        <div class="status-name">🏁 END</div>
+                        <div class="status-desc">
+                            End of the story. Light and translucent color symbolizes completion and exit.
+                        </div>
+                    </div>
+                </div>
+
+                <!-- NORMAL STATUS -->
+                <div class="status-card">
+                    <div class="status-preview">
+                        <div class="node-preview node-normal">NORMAL</div>
+                    </div>
+                    <div class="status-info">
+                        <div class="status-name">🌸 NORMAL</div>
+                        <div class="status-desc">
+                            Normal node with outgoing transitions. Reachable from START.
+                        </div>
+                    </div>
+                </div>
+
+                <!-- UNREACHABLE STATUS -->
+                <div class="status-card">
+                    <div class="status-preview">
+                        <div class="node-preview node-unreachable">UNREACHABLE</div>
+                    </div>
+                    <div class="status-info">
+                        <div class="status-name">👻 UNREACHABLE</div>
+                        <div class="status-desc">
+                            Unreachable node (55% opacity). "Dead" code that will never be executed.
+                        </div>
+                    </div>
+                </div>
+
+                <!-- ERROR STATUS -->
+                <div class="status-card">
+                    <div class="status-preview">
+                        <div class="node-preview node-error">ERROR</div>
+                    </div>
+                    <div class="status-info">
+                        <div class="status-name">⚠️ ERROR</div>
+                        <div class="status-desc">
+                            Node without outgoing transitions (red border 3px). Requires attention.
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section class="edge-section">
+            <h2 class="section-title">🔗 Edges and Connections</h2>
+
+            <div class="edge-types">
+                <!-- TRANSITIONS -->
+                <div class="edge-type">
+                    <div class="edge-demo">
+                        <svg viewBox="0 0 200 100" preserveAspectRatio="xMidYMid meet">
+                            <circle cx="30" cy="50" r="15" fill="#E8B4C8" stroke="#D291B8" stroke-width="2"/>
+                            <circle cx="170" cy="50" r="15" fill="#E8B4C8" stroke="#D291B8" stroke-width="2"/>
+                            <line x1="45" y1="50" x2="155" y2="50" stroke="#4A90A4" stroke-width="2"/>
+                            <polygon points="155,50 145,45 150,50 145,55" fill="#4A90A4"/>
+                            <text x="100" y="30" text-anchor="middle" fill="#4A90A4" font-size="11">transition</text>
+                        </svg>
+                    </div>
+                    <div class="edge-info">
+                        <div class="edge-name">➡️ TRANSITION</div>
+                        <div class="edge-desc">
+                            Player choices. Solid line, turquoise, closed arrow.
+                        </div>
+                    </div>
+                </div>
+
+                <!-- GOTO -->
+                <div class="edge-type">
+                    <div class="edge-demo">
+                        <svg viewBox="0 0 200 100" preserveAspectRatio="xMidYMid meet">
+                            <circle cx="30" cy="50" r="15" fill="#E8B4C8" stroke="#D291B8" stroke-width="2"/>
+                            <circle cx="170" cy="50" r="15" fill="#E8B4C8" stroke="#D291B8" stroke-width="2"/>
+                            <line x1="45" y1="50" x2="155" y2="50" stroke="#4A90A4" stroke-width="2" stroke-dasharray="5,5"/>
+                            <polygon points="155,50 145,45 150,50 145,55" fill="#4A90A4"/>
+                            <text x="100" y="30" text-anchor="middle" fill="#4A90A4" font-size="11">goto</text>
+                        </svg>
+                    </div>
+                    <div class="edge-info">
+                        <div class="edge-name">🔀 GOTO</div>
+                        <div class="edge-desc">
+                            Direct transitions. Dashed line (5px dash), turquoise, closed arrow.
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section class="table-section">
+            <h2 class="section-title">📊 Reference Table</h2>
+
+            <table>
+                <thead>
+                    <tr>
+                        <th>Type</th>
+                        <th>Color</th>
+                        <th>Hex</th>
+                        <th>RGB</th>
+                        <th>Usage</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td><span class="color-emoji">🌿</span> START</td>
+                        <td><span class="color-swatch" style="background-color: #7CB342;"></span></td>
+                        <td>#7CB342</td>
+                        <td>124, 179, 66</td>
+                        <td>Start of the story</td>
+                    </tr>
+                    <tr>
+                        <td><span class="color-emoji">🏁</span> END</td>
+                        <td><span class="color-swatch" style="background-color: #ecd4b3;"></span></td>
+                        <td>#ecd4b3</td>
+                        <td>236, 212, 179</td>
+                        <td>End of the story (85% opacity)</td>
+                    </tr>
+                    <tr>
+                        <td><span class="color-emoji">🌸</span> NORMAL</td>
+                        <td><span class="color-swatch" style="background-color: #E8B4C8;"></span></td>
+                        <td>#E8B4C8</td>
+                        <td>232, 180, 200</td>
+                        <td>Normal node</td>
+                    </tr>
+                    <tr>
+                        <td><span class="color-emoji">👻</span> UNREACHABLE</td>
+                        <td><span class="color-swatch" style="background-color: rgba(232, 180, 200, 0.4);"></span></td>
+                        <td>rgba(232, 180, 200, 0.4)</td>
+                        <td>232, 180, 200</td>
+                        <td>Unreachable node (55% opacity)</td>
+                    </tr>
+                    <tr>
+                        <td><span class="color-emoji">⚠️</span> ERROR</td>
+                        <td><span class="color-swatch" style="background-color: #C85A54;"></span></td>
+                        <td>#C85A54</td>
+                        <td>200, 90, 84</td>
+                        <td>Error (border 3px)</td>
+                    </tr>
+                    <tr>
+                        <td><span class="color-emoji">🌊</span> EDGE</td>
+                        <td><span class="color-swatch" style="background-color: #4A90A4;"></span></td>
+                        <td>#4A90A4</td>
+                        <td>74, 144, 164</td>
+                        <td>Edges, arrows, interactive</td>
+                    </tr>
+                </tbody>
+            </table>
+        </section>
+
+        <section class="table-section">
+            <h2 class="section-title">💻 CSS vars</h2>
+            
+            <pre><code>/* CSS Custom Properties */
+:root {
+  --color-narrative-start: #7CB342;
+  --color-narrative-end: #ecd4b3;
+  --color-narrative-normal: #E8B4C8;
+  --color-narrative-error: #C85A54;
+  --color-narrative-edge: #4A90A4;
+  --color-narrative-hover: #E8DCC8;
+}
+
+/* Tailwind Config */
+colors: {
+  'narrative-start': '#7CB342',
+  'narrative-end': '#ecd4b3',
+  'narrative-normal': '#E8B4C8',
+  'narrative-error': '#C85A54',
+  'narrative-edge': '#4A90A4',
+  'narrative-hover': '#E8DCC8',
+}</code></pre>
+        </section>
+
+        <!-- FOOTER -->
+        <footer>
+            <p>🎨 Color Palette - Narrative Hell — Inspired by Studio Ghibli</p>
+            <p style="margin-top: 10px; font-size: 0.9em;">Version 1.0 | 2025-10-30</p>
+        </footer>
+    </div>
+
+    <!-- COPY NOTIFICATION -->
+    <div class="copy-notification" id="copyNotification">
+        Copied to clipboard!
+    </div>
+
+    <script>
+        function copyToClipboard(text) {
+            navigator.clipboard.writeText(text).then(() => {
+                const notification = document.getElementById('copyNotification');
+                notification.classList.add('show');
+                setTimeout(() => {
+                    notification.classList.remove('show');
+                }, 2000);
+            });
+        }
+
+        document.querySelectorAll('.color-hex').forEach(el => {
+            el.style.cursor = 'pointer';
+            el.addEventListener('click', () => {
+                copyToClipboard(el.textContent);
+            });
+        });
+    </script>
+</body>
+</html>

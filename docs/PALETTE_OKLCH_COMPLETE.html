@@ -1,0 +1,891 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>🎨 Complete Color Palette - Narrative Hell (OKLCH)</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, oklch(15% 0.05 280), oklch(18% 0.06 250));
+            color: #e0e0e0;
+            padding: 40px 20px;
+            min-height: 100vh;
+        }
+
+        .container {
+            max-width: 1600px;
+            margin: 0 auto;
+        }
+
+        h1 {
+            text-align: center;
+            font-size: 2.5em;
+            margin-bottom: 10px;
+            color: oklch(70% 0.15 100);
+        }
+
+        .subtitle {
+            text-align: center;
+            font-size: 1.1em;
+            color: oklch(50% 0.05 0);
+            margin-bottom: 40px;
+        }
+
+        .info-box {
+            background: oklch(28% 0.06 250 / 0.5);
+            border-left: 4px solid oklch(58% 0.12 258);
+            padding: 20px;
+            border-radius: 8px;
+            margin-bottom: 30px;
+            color: oklch(72% 0.08 250);
+        }
+
+        .palette-section {
+            margin-bottom: 60px;
+        }
+
+        .section-title {
+            font-size: 1.8em;
+            margin-bottom: 30px;
+            padding-bottom: 15px;
+            border-bottom: 2px solid oklch(58% 0.12 258);
+            color: oklch(58% 0.12 258);
+        }
+
+        .component-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+            gap: 30px;
+            margin-bottom: 40px;
+        }
+
+        .component-card {
+            background: oklch(20% 0.05 250 / 0.8);
+            border: 1px solid oklch(58% 0.12 258 / 0.3);
+            border-radius: 12px;
+            overflow: hidden;
+            backdrop-filter: blur(10px);
+        }
+
+        .component-preview {
+            padding: 30px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            min-height: 120px;
+            background: oklch(20% 0.05 250 / 0.5);
+        }
+
+        .sample-node {
+            padding: 12px 24px;
+            border-radius: 8px;
+            border: 2px solid;
+            font-weight: 600;
+            text-align: center;
+            font-size: 0.95em;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+        }
+
+        .component-info {
+            padding: 20px;
+            background: oklch(18% 0.05 250 / 0.9);
+        }
+
+        .component-name {
+            font-size: 1.3em;
+            font-weight: 600;
+            margin-bottom: 15px;
+            color: #fff;
+        }
+
+        .color-layer {
+            margin-bottom: 12px;
+            padding: 12px;
+            background: oklch(25% 0.05 250 / 0.5);
+            border-radius: 6px;
+            border-left: 3px solid oklch(58% 0.12 258);
+        }
+
+        .layer-name {
+            font-size: 0.85em;
+            color: oklch(58% 0.12 258);
+            font-weight: 600;
+            margin-bottom: 5px;
+        }
+
+        .layer-values {
+            font-family: 'Courier New', monospace;
+            font-size: 0.9em;
+        }
+
+        .value-format {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 3px;
+            color: oklch(70% 0.05 0);
+        }
+
+        .format-label {
+            color: oklch(50% 0.05 0);
+        }
+
+        .format-code {
+            color: oklch(70% 0.12 250);
+            font-weight: 600;
+            cursor: pointer;
+            transition: color 0.2s;
+        }
+
+        .format-code:hover {
+            color: oklch(80% 0.12 258);
+        }
+
+        .table-section {
+            background: oklch(20% 0.05 250 / 0.8);
+            border: 1px solid oklch(58% 0.12 258 / 0.3);
+            border-radius: 12px;
+            padding: 30px;
+            backdrop-filter: blur(10px);
+            margin-bottom: 40px;
+            overflow-x: auto;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 20px;
+            font-size: 0.9em;
+        }
+
+        th, td {
+            padding: 12px;
+            text-align: left;
+            border-bottom: 1px solid oklch(58% 0.12 258 / 0.2);
+        }
+
+        th {
+            background: oklch(58% 0.12 258 / 0.1);
+            color: oklch(58% 0.12 258);
+            font-weight: 600;
+            position: sticky;
+            top: 0;
+        }
+
+        tr:hover {
+            background: oklch(58% 0.12 258 / 0.05);
+        }
+
+        .swatch {
+            width: 30px;
+            height: 30px;
+            border-radius: 4px;
+            border: 1px solid oklch(0% 0 0 / 0.2);
+            display: inline-block;
+            cursor: pointer;
+            transition: transform 0.2s;
+        }
+
+        .swatch:hover {
+            transform: scale(1.15);
+        }
+
+        .color-code {
+            font-family: 'Courier New', monospace;
+            font-size: 0.85em;
+            background: oklch(18% 0.05 250 / 0.8);
+            padding: 4px 8px;
+            border-radius: 4px;
+            cursor: pointer;
+            color: oklch(70% 0.12 250);
+        }
+
+        .color-code:hover {
+            background: oklch(25% 0.05 250 / 0.8);
+            color: oklch(80% 0.12 258);
+        }
+
+        .category {
+            background: oklch(20% 0.05 250 / 0.8);
+            border: 1px solid oklch(58% 0.12 258 / 0.3);
+            border-radius: 12px;
+            padding: 20px;
+            margin-bottom: 20px;
+            backdrop-filter: blur(10px);
+        }
+
+        .category-title {
+            font-size: 1.1em;
+            font-weight: 600;
+            color: oklch(58% 0.12 258);
+            margin-bottom: 15px;
+            padding-bottom: 10px;
+            border-bottom: 1px solid oklch(58% 0.12 258 / 0.3);
+        }
+
+        .color-item {
+            display: grid;
+            grid-template-columns: 50px 1fr;
+            gap: 15px;
+            align-items: center;
+            padding: 10px;
+            margin-bottom: 10px;
+            background: oklch(25% 0.05 250 / 0.3);
+            border-radius: 6px;
+        }
+
+        .color-item:last-child {
+            margin-bottom: 0;
+        }
+
+        .color-item-info {
+            display: grid;
+            grid-template-columns: 1fr 1fr 1fr;
+            gap: 10px;
+        }
+
+        .color-item-value {
+            font-family: 'Courier New', monospace;
+            font-size: 0.85em;
+            color: oklch(70% 0.05 0);
+        }
+
+        .color-item-label {
+            font-size: 0.8em;
+            color: oklch(50% 0.05 0);
+        }
+
+        footer {
+            text-align: center;
+            padding: 40px 20px;
+            color: oklch(40% 0.05 0);
+            border-top: 1px solid oklch(58% 0.12 258 / 0.2);
+            margin-top: 60px;
+        }
+
+        .copy-notification {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            background: oklch(58% 0.12 258);
+            color: white;
+            padding: 15px 20px;
+            border-radius: 8px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+            opacity: 0;
+            transform: translateY(20px);
+            transition: all 0.3s ease;
+            pointer-events: none;
+            z-index: 1000;
+        }
+
+        .copy-notification.show {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        @media (max-width: 768px) {
+            .component-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .color-item-info {
+                grid-template-columns: 1fr;
+            }
+
+            table {
+                font-size: 0.8em;
+            }
+
+            th, td {
+                padding: 8px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>🎨 Complete Color Palette - Narrative Hell</h1>
+        <p class="subtitle">OKLCH Format | All Layers for Every Component</p>
+
+        <div class="info-box">
+            <strong>💡 Important:</strong> Each node element has 3 color layers — background, border, and text color. Click any code to copy.
+        </div>
+
+        <!-- NODE STATUSES -->
+        <section class="palette-section">
+            <h2 class="section-title">📍 Node Status Colors (Complete Breakdown)</h2>
+            
+            <div class="component-grid">
+                <!-- START -->
+                <div class="component-card">
+                    <div class="component-preview">
+                        <div class="sample-node" style="
+                            background-color: oklch(60% 0.15 142);
+                            border-color: oklch(52% 0.15 143);
+                            color: oklch(25% 0.12 142);
+                        ">START</div>
+                    </div>
+                    <div class="component-info">
+                        <div class="component-name">🌿 START - Green</div>
+                        <p style="font-size: 0.9em; color: oklch(60% 0.05 0); margin-bottom: 15px;">Beginning of story, growth, new possibilities</p>
+                        
+                        <div class="color-layer">
+                            <div class="layer-name">📦 Background</div>
+                            <div class="layer-values">
+                                <div class="value-format">
+                                    <span class="format-label">OKLCH:</span>
+                                    <span class="format-code" onclick="copyAndNotify('oklch(60% 0.15 142)')">oklch(60% 0.15 142)</span>
+                                </div>
+                                <div class="value-format">
+                                    <span class="format-label">HEX:</span>
+                                    <span class="format-code" onclick="copyAndNotify('#7CB342')">#7CB342</span>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="color-layer">
+                            <div class="layer-name">🔲 Border</div>
+                            <div class="layer-values">
+                                <div class="value-format">
+                                    <span class="format-label">OKLCH:</span>
+                                    <span class="format-code" onclick="copyAndNotify('oklch(52% 0.15 143)')">oklch(52% 0.15 143)</span>
+                                </div>
+                                <div class="value-format">
+                                    <span class="format-label">HEX:</span>
+                                    <span class="format-code" onclick="copyAndNotify('#689F38')">#689F38</span>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="color-layer">
+                            <div class="layer-name">✏️ Text</div>
+                            <div class="layer-values">
+                                <div class="value-format">
+                                    <span class="format-label">OKLCH:</span>
+                                    <span class="format-code" onclick="copyAndNotify('oklch(25% 0.12 142)')">oklch(25% 0.12 142)</span>
+                                </div>
+                                <div class="value-format">
+                                    <span class="format-label">HEX:</span>
+                                    <span class="format-code" onclick="copyAndNotify('#1b5e20')">#1b5e20</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- END -->
+                <div class="component-card">
+                    <div class="component-preview">
+                        <div class="sample-node" style="
+                            background-color: oklch(82% 0.07 67 / 0.85);
+                            border-color: oklch(52% 0.13 32 / 0.7);
+                            color: oklch(18% 0.08 32);
+                        ">END</div>
+                    </div>
+                    <div class="component-info">
+                        <div class="component-name">🏁 END - Light Beige</div>
+                        <p style="font-size: 0.9em; color: oklch(60% 0.05 0); margin-bottom: 15px;">End of story, completion, dissolution</p>
+                        
+                        <div class="color-layer">
+                            <div class="layer-name">📦 Background</div>
+                            <div class="layer-values">
+                                <div class="value-format">
+                                    <span class="format-label">OKLCH:</span>
+                                    <span class="format-code" onclick="copyAndNotify('oklch(82% 0.07 67 / 0.85)')">oklch(82% 0.07 67 / 0.85)</span>
+                                </div>
+                                <div class="value-format">
+                                    <span class="format-label">HEX:</span>
+                                    <span class="format-code" onclick="copyAndNotify('#ecd4b3')">#ecd4b3</span>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="color-layer">
+                            <div class="layer-name">🔲 Border</div>
+                            <div class="layer-values">
+                                <div class="value-format">
+                                    <span class="format-label">OKLCH:</span>
+                                    <span class="format-code" onclick="copyAndNotify('oklch(52% 0.13 32 / 0.7)')">oklch(52% 0.13 32 / 0.7)</span>
+                                </div>
+                                <div class="value-format">
+                                    <span class="format-label">HEX:</span>
+                                    <span class="format-code" onclick="copyAndNotify('#c87c66')">#c87c66 (70% opacity)</span>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="color-layer">
+                            <div class="layer-name">✏️ Text</div>
+                            <div class="layer-values">
+                                <div class="value-format">
+                                    <span class="format-label">OKLCH:</span>
+                                    <span class="format-code" onclick="copyAndNotify('oklch(18% 0.08 32)')">oklch(18% 0.08 32)</span>
+                                </div>
+                                <div class="value-format">
+                                    <span class="format-label">HEX:</span>
+                                    <span class="format-code" onclick="copyAndNotify('#3e2723')">#3e2723</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- NORMAL -->
+                <div class="component-card">
+                    <div class="component-preview">
+                        <div class="sample-node" style="
+                            background-color: oklch(78% 0.13 346);
+                            border-color: oklch(68% 0.13 347);
+                            color: oklch(28% 0.20 315);
+                        ">NORMAL</div>
+                    </div>
+                    <div class="component-info">
+                        <div class="component-name">🌸 NORMAL - Pink</div>
+                        <p style="font-size: 0.9em; color: oklch(60% 0.05 0); margin-bottom: 15px;">Regular node with transitions, main content</p>
+                        
+                        <div class="color-layer">
+                            <div class="layer-name">📦 Background</div>
+                            <div class="layer-values">
+                                <div class="value-format">
+                                    <span class="format-label">OKLCH:</span>
+                                    <span class="format-code" onclick="copyAndNotify('oklch(78% 0.13 346)')">oklch(78% 0.13 346)</span>
+                                </div>
+                                <div class="value-format">
+                                    <span class="format-label">HEX:</span>
+                                    <span class="format-code" onclick="copyAndNotify('#E8B4C8')">#E8B4C8</span>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="color-layer">
+                            <div class="layer-name">🔲 Border</div>
+                            <div class="layer-values">
+                                <div class="value-format">
+                                    <span class="format-label">OKLCH:</span>
+                                    <span class="format-code" onclick="copyAndNotify('oklch(68% 0.13 347)')">oklch(68% 0.13 347)</span>
+                                </div>
+                                <div class="value-format">
+                                    <span class="format-label">HEX:</span>
+                                    <span class="format-code" onclick="copyAndNotify('#D291B8')">#D291B8</span>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="color-layer">
+                            <div class="layer-name">✏️ Text</div>
+                            <div class="layer-values">
+                                <div class="value-format">
+                                    <span class="format-label">OKLCH:</span>
+                                    <span class="format-code" onclick="copyAndNotify('oklch(28% 0.20 315)')">oklch(28% 0.20 315)</span>
+                                </div>
+                                <div class="value-format">
+                                    <span class="format-label">HEX:</span>
+                                    <span class="format-code" onclick="copyAndNotify('#4a148c')">#4a148c</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- UNREACHABLE -->
+                <div class="component-card">
+                    <div class="component-preview">
+                        <div class="sample-node" style="
+                            background-color: oklch(78% 0.13 346 / 0.4);
+                            border-color: oklch(67% 0.11 345 / 0.5);
+                            color: oklch(28% 0.20 315 / 0.5);
+                            opacity: 0.55;
+                        ">UNREACHABLE</div>
+                    </div>
+                    <div class="component-info">
+                        <div class="component-name">👻 UNREACHABLE - Transparent</div>
+                        <p style="font-size: 0.9em; color: oklch(60% 0.05 0); margin-bottom: 15px;">Dead code, unreachable from start (55% opacity)</p>
+                        
+                        <div class="color-layer">
+                            <div class="layer-name">📦 Background</div>
+                            <div class="layer-values">
+                                <div class="value-format">
+                                    <span class="format-label">OKLCH:</span>
+                                    <span class="format-code" onclick="copyAndNotify('oklch(78% 0.13 346 / 0.4)')">oklch(78% 0.13 346 / 0.4)</span>
+                                </div>
+                                <div class="value-format">
+                                    <span class="format-label">RGBA:</span>
+                                    <span class="format-code" onclick="copyAndNotify('rgba(232, 180, 200, 0.4)')">rgba(232, 180, 200, 0.4)</span>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="color-layer">
+                            <div class="layer-name">🔲 Border</div>
+                            <div class="layer-values">
+                                <div class="value-format">
+                                    <span class="format-label">OKLCH:</span>
+                                    <span class="format-code" onclick="copyAndNotify('oklch(67% 0.11 345 / 0.5)')">oklch(67% 0.11 345 / 0.5)</span>
+                                </div>
+                                <div class="value-format">
+                                    <span class="format-label">RGBA:</span>
+                                    <span class="format-code" onclick="copyAndNotify('rgba(210, 145, 184, 0.5)')">rgba(210, 145, 184, 0.5)</span>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="color-layer">
+                            <div class="layer-name">✏️ Text</div>
+                            <div class="layer-values">
+                                <div class="value-format">
+                                    <span class="format-label">OKLCH:</span>
+                                    <span class="format-code" onclick="copyAndNotify('oklch(28% 0.20 315 / 0.5)')">oklch(28% 0.20 315 / 0.5)</span>
+                                </div>
+                                <div class="value-format">
+                                    <span class="format-label">RGBA:</span>
+                                    <span class="format-code" onclick="copyAndNotify('rgba(74, 20, 140, 0.5)')">rgba(74, 20, 140, 0.5)</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- ERROR -->
+                <div class="component-card">
+                    <div class="component-preview">
+                        <div class="sample-node" style="
+                            background-color: oklch(78% 0.13 346);
+                            border-color: oklch(52% 0.16 32);
+                            border-width: 3px;
+                            color: oklch(28% 0.20 315);
+                        ">ERROR</div>
+                    </div>
+                    <div class="component-info">
+                        <div class="component-name">⚠️ ERROR - Red Border</div>
+                        <p style="font-size: 0.9em; color: oklch(60% 0.05 0); margin-bottom: 15px;">No outgoing transitions/gotos (3px red border)</p>
+                        
+                        <div class="color-layer">
+                            <div class="layer-name">📦 Background</div>
+                            <div class="layer-values">
+                                <div class="value-format">
+                                    <span class="format-label">OKLCH:</span>
+                                    <span class="format-code" onclick="copyAndNotify('oklch(78% 0.13 346)')">oklch(78% 0.13 346)</span>
+                                </div>
+                                <div class="value-format">
+                                    <span class="format-label">HEX:</span>
+                                    <span class="format-code" onclick="copyAndNotify('#E8B4C8')">#E8B4C8</span>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="color-layer">
+                            <div class="layer-name">🔲 Border</div>
+                            <div class="layer-values">
+                                <div class="value-format">
+                                    <span class="format-label">OKLCH:</span>
+                                    <span class="format-code" onclick="copyAndNotify('oklch(52% 0.16 32)')">oklch(52% 0.16 32)</span>
+                                </div>
+                                <div class="value-format">
+                                    <span class="format-label">HEX:</span>
+                                    <span class="format-code" onclick="copyAndNotify('#C85A54')">#C85A54</span>
+                                </div>
+                                <div class="value-format">
+                                    <span class="format-label">Width:</span>
+                                    <span class="format-code">3px</span>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="color-layer">
+                            <div class="layer-name">✏️ Text</div>
+                            <div class="layer-values">
+                                <div class="value-format">
+                                    <span class="format-label">OKLCH:</span>
+                                    <span class="format-code" onclick="copyAndNotify('oklch(28% 0.20 315)')">oklch(28% 0.20 315)</span>
+                                </div>
+                                <div class="value-format">
+                                    <span class="format-label">HEX:</span>
+                                    <span class="format-code" onclick="copyAndNotify('#4a148c')">#4a148c</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- EDGES & INTERACTIVE ELEMENTS -->
+        <section class="palette-section">
+            <h2 class="section-title">🔗 Edges and Interactive Elements</h2>
+
+            <div class="component-grid">
+                <!-- EDGE -->
+                <div class="component-card">
+                    <div class="component-preview" style="background: linear-gradient(90deg, oklch(78% 0.13 346), oklch(78% 0.13 346));">
+                        <svg style="width: 80%; height: 80%;" viewBox="0 0 200 100" preserveAspectRatio="xMidYMid meet">
+                            <circle cx="30" cy="50" r="15" fill="oklch(78% 0.13 346)" stroke="oklch(68% 0.13 347)" stroke-width="2"/>
+                            <circle cx="170" cy="50" r="15" fill="oklch(78% 0.13 346)" stroke="oklch(68% 0.13 347)" stroke-width="2"/>
+                            <line x1="45" y1="50" x2="155" y2="50" stroke="oklch(58% 0.12 258)" stroke-width="2"/>
+                            <polygon points="155,50 145,45 150,50 145,55" fill="oklch(58% 0.12 258)"/>
+                        </svg>
+                    </div>
+                    <div class="component-info">
+                        <div class="component-name">🌊 EDGE / STROKE - Teal</div>
+                        
+                        <div class="color-layer">
+                            <div class="layer-name">🎨 Main Color</div>
+                            <div class="layer-values">
+                                <div class="value-format">
+                                    <span class="format-label">OKLCH:</span>
+                                    <span class="format-code" onclick="copyAndNotify('oklch(58% 0.12 258)')">oklch(58% 0.12 258)</span>
+                                </div>
+                                <div class="value-format">
+                                    <span class="format-label">HEX:</span>
+                                    <span class="format-code" onclick="copyAndNotify('#4A90A4')">#4A90A4</span>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="color-layer">
+                            <div class="layer-name">📊 Edge Types</div>
+                            <div class="layer-values">
+                                <div class="value-format">
+                                    <span class="format-label">Transitions:</span>
+                                    <span class="format-code">solid line, 2px</span>
+                                </div>
+                                <div class="value-format">
+                                    <span class="format-label">Goto:</span>
+                                    <span class="format-code">dash 5,5, 2px</span>
+                                </div>
+                                <div class="value-format">
+                                    <span class="format-label">Arrow:</span>
+                                    <span class="format-code">arrowclosed</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- HOVER -->
+                <div class="component-card">
+                    <div class="component-preview">
+                        <div class="sample-node" style="
+                            background-color: oklch(84% 0.06 73);
+                            border-color: oklch(58% 0.12 258);
+                            color: oklch(28% 0.20 315);
+                            box-shadow: 0 8px 24px rgba(0, 0, 0, 0.4);
+                            transform: scale(1.05);
+                        ">HOVER</div>
+                    </div>
+                    <div class="component-info">
+                        <div class="component-name">⭐ HOVER / SELECTED</div>
+                        
+                        <div class="color-layer">
+                            <div class="layer-name">📦 Background</div>
+                            <div class="layer-values">
+                                <div class="value-format">
+                                    <span class="format-label">OKLCH:</span>
+                                    <span class="format-code" onclick="copyAndNotify('oklch(84% 0.06 73)')">oklch(84% 0.06 73)</span>
+                                </div>
+                                <div class="value-format">
+                                    <span class="format-label">HEX:</span>
+                                    <span class="format-code" onclick="copyAndNotify('#E8DCC8')">#E8DCC8</span>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="color-layer">
+                            <div class="layer-name">🎯 Border (selected)</div>
+                            <div class="layer-values">
+                                <div class="value-format">
+                                    <span class="format-label">OKLCH:</span>
+                                    <span class="format-code" onclick="copyAndNotify('oklch(58% 0.12 258)')">oklch(58% 0.12 258)</span>
+                                </div>
+                                <div class="value-format">
+                                    <span class="format-label">HEX:</span>
+                                    <span class="format-code" onclick="copyAndNotify('#4A90A4')">#4A90A4</span>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="color-layer">
+                            <div class="layer-name">✨ Effects</div>
+                            <div class="layer-values">
+                                <div class="value-format">
+                                    <span class="format-label">Shadow:</span>
+                                    <span class="format-code">0 8px 24px rgba(0,0,0,0.4)</span>
+                                </div>
+                                <div class="value-format">
+                                    <span class="format-label">Transform:</span>
+                                    <span class="format-code">scale(1.05)</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- FULL REFERENCE TABLE -->
+        <section class="table-section">
+            <h2 class="section-title">📊 Complete Reference Table</h2>
+            
+            <table>
+                <thead>
+                    <tr>
+                        <th>Element</th>
+                        <th>Layer</th>
+                        <th>OKLCH</th>
+                        <th>HEX</th>
+                        <th>RGB/RGBA</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td rowspan="3"><strong>🌿 START</strong></td>
+                        <td>Background</td>
+                        <td><span class="color-code" onclick="copyAndNotify('oklch(60% 0.15 142)')">oklch(60% 0.15 142)</span></td>
+                        <td><span class="color-code" onclick="copyAndNotify('#7CB342')">#7CB342</span></td>
+                        <td><span class="color-code" onclick="copyAndNotify('124, 179, 66')">124, 179, 66</span></td>
+                    </tr>
+                    <tr>
+                        <td>Border</td>
+                        <td><span class="color-code" onclick="copyAndNotify('oklch(52% 0.15 143)')">oklch(52% 0.15 143)</span></td>
+                        <td><span class="color-code" onclick="copyAndNotify('#689F38')">#689F38</span></td>
+                        <td><span class="color-code" onclick="copyAndNotify('104, 159, 56')">104, 159, 56</span></td>
+                    </tr>
+                    <tr>
+                        <td>Text</td>
+                        <td><span class="color-code" onclick="copyAndNotify('oklch(25% 0.12 142)')">oklch(25% 0.12 142)</span></td>
+                        <td><span class="color-code" onclick="copyAndNotify('#1b5e20')">#1b5e20</span></td>
+                        <td><span class="color-code" onclick="copyAndNotify('27, 94, 32')">27, 94, 32</span></td>
+                    </tr>
+
+                    <tr>
+                        <td rowspan="3"><strong>🏁 END</strong></td>
+                        <td>Background</td>
+                        <td><span class="color-code" onclick="copyAndNotify('oklch(82% 0.07 67 / 0.85)')">oklch(82% 0.07 67 / 0.85)</span></td>
+                        <td><span class="color-code" onclick="copyAndNotify('#ecd4b3')">#ecd4b3</span></td>
+                        <td><span class="color-code" onclick="copyAndNotify('236, 212, 179')">236, 212, 179</span></td>
+                    </tr>
+                    <tr>
+                        <td>Border</td>
+                        <td><span class="color-code" onclick="copyAndNotify('oklch(52% 0.13 32 / 0.7)')">oklch(52% 0.13 32 / 0.7)</span></td>
+                        <td><span class="color-code" onclick="copyAndNotify('rgba(200, 124, 102)')">rgba(200, 124, 102)</span></td>
+                        <td><span class="color-code" onclick="copyAndNotify('200, 124, 102')">200, 124, 102</span></td>
+                    </tr>
+                    <tr>
+                        <td>Text</td>
+                        <td><span class="color-code" onclick="copyAndNotify('oklch(18% 0.08 32)')">oklch(18% 0.08 32)</span></td>
+                        <td><span class="color-code" onclick="copyAndNotify('#3e2723')">#3e2723</span></td>
+                        <td><span class="color-code" onclick="copyAndNotify('62, 39, 35')">62, 39, 35</span></td>
+                    </tr>
+
+                    <tr>
+                        <td rowspan="3"><strong>🌸 NORMAL</strong></td>
+                        <td>Background</td>
+                        <td><span class="color-code" onclick="copyAndNotify('oklch(78% 0.13 346)')">oklch(78% 0.13 346)</span></td>
+                        <td><span class="color-code" onclick="copyAndNotify('#E8B4C8')">#E8B4C8</span></td>
+                        <td><span class="color-code" onclick="copyAndNotify('232, 180, 200')">232, 180, 200</span></td>
+                    </tr>
+                    <tr>
+                        <td>Border</td>
+                        <td><span class="color-code" onclick="copyAndNotify('oklch(68% 0.13 347)')">oklch(68% 0.13 347)</span></td>
+                        <td><span class="color-code" onclick="copyAndNotify('#D291B8')">#D291B8</span></td>
+                        <td><span class="color-code" onclick="copyAndNotify('210, 145, 184')">210, 145, 184</span></td>
+                    </tr>
+                    <tr>
+                        <td>Text</td>
+                        <td><span class="color-code" onclick="copyAndNotify('oklch(28% 0.20 315)')">oklch(28% 0.20 315)</span></td>
+                        <td><span class="color-code" onclick="copyAndNotify('#4a148c')">#4a148c</span></td>
+                        <td><span class="color-code" onclick="copyAndNotify('74, 20, 140')">74, 20, 140</span></td>
+                    </tr>
+
+                    <tr>
+                        <td rowspan="3"><strong>👻 UNREACHABLE</strong></td>
+                        <td>Background</td>
+                        <td><span class="color-code" onclick="copyAndNotify('oklch(78% 0.13 346 / 0.4)')">oklch(..., / 0.4)</span></td>
+                        <td><span class="color-code" onclick="copyAndNotify('rgba(232, 180, 200, 0.4)')">rgba(...)</span></td>
+                        <td><span class="color-code" onclick="copyAndNotify('232, 180, 200 (40%)')">232, 180, 200</span></td>
+                    </tr>
+                    <tr>
+                        <td>Border</td>
+                        <td><span class="color-code" onclick="copyAndNotify('oklch(67% 0.11 345 / 0.5)')">oklch(..., / 0.5)</span></td>
+                        <td><span class="color-code" onclick="copyAndNotify('rgba(210, 145, 184, 0.5)')">rgba(...)</span></td>
+                        <td><span class="color-code" onclick="copyAndNotify('210, 145, 184 (50%)')">210, 145, 184</span></td>
+                    </tr>
+                    <tr>
+                        <td>Text</td>
+                        <td><span class="color-code" onclick="copyAndNotify('oklch(28% 0.20 315 / 0.5)')">oklch(..., / 0.5)</span></td>
+                        <td><span class="color-code" onclick="copyAndNotify('rgba(74, 20, 140, 0.5)')">rgba(...)</span></td>
+                        <td><span class="color-code" onclick="copyAndNotify('74, 20, 140 (50%)')">74, 20, 140</span></td>
+                    </tr>
+
+                    <tr>
+                        <td rowspan="3"><strong>⚠️ ERROR</strong></td>
+                        <td>Background</td>
+                        <td><span class="color-code" onclick="copyAndNotify('oklch(78% 0.13 346)')">oklch(78% 0.13 346)</span></td>
+                        <td><span class="color-code" onclick="copyAndNotify('#E8B4C8')">#E8B4C8</span></td>
+                        <td><span class="color-code" onclick="copyAndNotify('232, 180, 200')">232, 180, 200</span></td>
+                    </tr>
+                    <tr>
+                        <td>Border (3px)</td>
+                        <td><span class="color-code" onclick="copyAndNotify('oklch(52% 0.16 32)')">oklch(52% 0.16 32)</span></td>
+                        <td><span class="color-code" onclick="copyAndNotify('#C85A54')">#C85A54</span></td>
+                        <td><span class="color-code" onclick="copyAndNotify('200, 90, 84')">200, 90, 84</span></td>
+                    </tr>
+                    <tr>
+                        <td>Text</td>
+                        <td><span class="color-code" onclick="copyAndNotify('oklch(28% 0.20 315)')">oklch(28% 0.20 315)</span></td>
+                        <td><span class="color-code" onclick="copyAndNotify('#4a148c')">#4a148c</span></td>
+                        <td><span class="color-code" onclick="copyAndNotify('74, 20, 140')">74, 20, 140</span></td>
+                    </tr>
+
+                    <tr>
+                        <td><strong>🌊 EDGE</strong></td>
+                        <td>Stroke</td>
+                        <td><span class="color-code" onclick="copyAndNotify('oklch(58% 0.12 258)')">oklch(58% 0.12 258)</span></td>
+                        <td><span class="color-code" onclick="copyAndNotify('#4A90A4')">#4A90A4</span></td>
+                        <td><span class="color-code" onclick="copyAndNotify('74, 144, 164')">74, 144, 164</span></td>
+                    </tr>
+
+                    <tr>
+                        <td><strong>⭐ HOVER</strong></td>
+                        <td>Background</td>
+                        <td><span class="color-code" onclick="copyAndNotify('oklch(84% 0.06 73)')">oklch(84% 0.06 73)</span></td>
+                        <td><span class="color-code" onclick="copyAndNotify('#E8DCC8')">#E8DCC8</span></td>
+                        <td><span class="color-code" onclick="copyAndNotify('232, 220, 200')">232, 220, 200</span></td>
+                    </tr>
+                </tbody>
+            </table>
+        </section>
+
+        <!-- FOOTER -->
+        <footer>
+            <p>🎨 Complete Color Palette for Narrative Hell - Inspired by Studio Ghibli</p>
+            <p style="margin-top: 10px; font-size: 0.9em;">Version 2.0 (OKLCH Format) | October 2025</p>
+            <p style="margin-top: 10px; font-size: 0.85em; color: oklch(40% 0.05 0);">Each node has 3 color layers: background, border, and text. All values are provided in OKLCH, HEX, and RGB formats.</p>
+        </footer>
+    </div>
+
+    <!-- COPY NOTIFICATION -->
+    <div class="copy-notification" id="copyNotification">
+        ✅ Copied!
+    </div>
+
+    <script>
+        function copyAndNotify(text) {
+            navigator.clipboard.writeText(text).then(() => {
+                const notification = document.getElementById('copyNotification');
+                notification.textContent = `✅ Copied: ${text}`;
+                notification.classList.add('show');
+                setTimeout(() => {
+                    notification.classList.remove('show');
+                }, 2000);
+            });
+        }
+    </script>
+</body>
+</html>
