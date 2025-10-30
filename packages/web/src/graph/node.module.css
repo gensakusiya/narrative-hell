@@ -1,0 +1,89 @@
+@import 'tailwindcss';
+
+.node {
+  @apply relative px-3 py-2 rounded-md shadow-md transition-all duration-200 font-medium text-sm text-center;
+  min-width: 100px;
+  border-width: 2px;
+
+  &:hover {
+    @apply shadow-lg;
+  }
+}
+
+.start {
+  background-color: var(--color-start);
+  border-color: var(--color-start-border);
+  color: var(--color-start-text);
+
+  &:hover {
+    background-color: var(--color-hover);
+  }
+}
+
+.end {
+  background-color: var(--color-end);
+  border-color: var(--color-end-border);
+  color: var(--color-end-text);
+
+  &:hover {
+    background-color: var(--color-hover);
+  }
+}
+
+.normal {
+  background-color: var(--color-normal);
+  border-color: var(--color-normal-border);
+  color: var(--color-normal-text);
+
+  &:hover {
+    background-color: var(--color-hover);
+  }
+}
+
+.unreachable {
+  background-color: var(--color-unreachable);
+  border-color: var(--color-unreachable-border);
+  color: var(--color-unreachable-text);
+
+  &:hover {
+    background-color: var(--color-hover);
+  }
+}
+
+.error {
+  background-color: var(--color-error);
+  border-color: var(--color-error-border);
+  color: var(--color-error-text);
+
+  &:hover {
+    background-color: var(--color-hover);
+  }
+}
+
+.selected {
+  @apply shadow-xl;
+}
+
+.content {
+  @apply flex flex-col gap-1;
+}
+
+.name {
+  @apply font-semibold whitespace-nowrap;
+}
+
+.hint {
+  @apply text-xs opacity-75 italic whitespace-nowrap;
+  font-weight: normal;
+}
+
+:global(.react-flow__handle) {
+  background-color: #4a90a4 !important;
+  border-color: #2c5aa0 !important;
+  width: 8px !important;
+  height: 8px !important;
+}
+
+:global(.react-flow__handle:hover) {
+  background-color: #6ba5c4 !important;
+}
