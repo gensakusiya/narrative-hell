@@ -1,5 +1,6 @@
 import * as vscode from 'vscode';
-import { Beat } from '../types/beat';
+import { Beat } from 'shared';
+
 import { END_BEAT, START_BEAT } from '../consts';
 
 export function validateUnreachableBeats(

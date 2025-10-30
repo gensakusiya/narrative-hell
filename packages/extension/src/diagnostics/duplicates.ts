@@ -1,5 +1,5 @@
 import * as vscode from 'vscode';
-import { BeatPartial } from '../types/beat';
+import { BeatPartial } from 'shared';
 
 export function validateDuplicateBeats(
   beats: BeatPartial[],

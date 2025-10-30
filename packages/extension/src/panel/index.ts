@@ -1,5 +1,6 @@
 import * as vscode from 'vscode';
-import { Beat } from '../types/beat';
+import { Beat } from 'shared';
+
 import { convertToGraphData } from './convert-to-graph';
 import { getNonce, getUri } from './utils';
 

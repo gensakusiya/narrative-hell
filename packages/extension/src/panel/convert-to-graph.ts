@@ -1,13 +1,14 @@
-import { Beat } from '../types/beat';
-import { GraphData, Node } from './view';
+import { Beat, GraphData, GraphNode } from 'shared';
 
-function convertBeatToNode(beat: Beat): Node {
+function convertBeatToNode(beat: Beat): GraphNode<Beat> {
+  const nodeData: Beat = {
+    ...beat,
+  };
+
   return {
     id: beat.name,
     type: 'beatNode',
-    data: {
-      ...beat,
-    },
+    data: nodeData,
     position: { x: Math.random() * 800, y: Math.random() * 600 },
   };
 }
@@ -15,10 +16,11 @@ function convertBeatToNode(beat: Beat): Node {
 export function convertToGraphData(
   beats: Map<string, Beat>,
   _validation: Map<string, object>
-): GraphData {
+): GraphData<Beat> {
   const nodes = Array.from(beats.values()).map(convertBeatToNode);
 
   return {
     nodes,
+    edges: [],
   };
 }

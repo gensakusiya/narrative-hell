@@ -1,10 +1,11 @@
 import * as vscode from 'vscode';
+import { Beat } from 'shared';
+
 import { validateMissingTargets } from './missing-targets';
 import { validateUnreachableBeats } from './unreachable-beats';
 import { getBeatsInOrder } from '../parser/collect-beats';
 import { validateDeadEnds } from './dead-ends';
 import { validateDuplicateBeats } from './duplicates';
-import { Beat } from '../types/beat';
 
 export function validateDocument(
   beats: Map<string, Beat>,

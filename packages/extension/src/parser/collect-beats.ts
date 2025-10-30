@@ -1,3 +1,4 @@
+import { Beat, Transition, Effect, Goto, BeatPartial } from 'shared';
 import {
   beatRegex,
   transitionRegex,
@@ -8,7 +9,6 @@ import {
   COMMENT_END_SYMBOL,
   COMMENT_START_SYMBOL,
 } from '../consts';
-import { Beat, Transition, Effect, Goto, BeatPartial } from '../types/beat';
 
 export function collectBeats(lines: string[]): Map<string, Beat> {
   const beats = new Map<string, Beat>();

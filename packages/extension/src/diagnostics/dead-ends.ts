@@ -1,5 +1,5 @@
 import * as vscode from 'vscode';
-import { Beat } from '../types/beat';
+import { Beat } from 'shared';
 
 export function validateDeadEnds(
   beats: Map<string, Beat>,

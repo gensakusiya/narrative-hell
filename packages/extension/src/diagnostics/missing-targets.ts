@@ -1,7 +1,7 @@
 import * as vscode from 'vscode';
+import { Beat } from 'shared';
 
-import { END_BEAT, GOTO_SYMBOL, gotoRegex } from '../consts';
-import { Beat } from '../types/beat';
+import { END_BEAT, gotoRegex } from '../consts';
 
 export function validateMissingTargets(
   beats: Map<string, Beat>,
