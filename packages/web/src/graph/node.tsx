@@ -7,7 +7,9 @@ import styles from './node.module.css';
 
 export function BeatNode({ data, selected }: NodeProps): React.ReactElement {
   const nodeData = data as unknown as BeatWithValidation;
-  const { name, isStart, isEnd, isUnreachable, hasError } = nodeData;
+  const { name, transitions, goto, isStart, isEnd, isUnreachable, hasError } =
+    nodeData;
+  const hasContent = transitions.length > 0 || Object.keys(goto).length > 0;
 
   const getStatusClasses = (): string => {
     const baseClasses = [styles.node];
@@ -31,14 +33,22 @@ export function BeatNode({ data, selected }: NodeProps): React.ReactElement {
     return baseClasses.join(' ');
   };
 
+  const headerClasses = [styles.header];
+  if (hasContent) {
+    headerClasses.push(styles.line);
+  }
+
+  const contentElement = hasContent ? (
+    <div className={styles.content}>
+      {/* Additional content can be rendered here */}
+    </div>
+  ) : null;
+
   return (
     <div className={getStatusClasses()}>
+      <div className={headerClasses.join(' ')}>{name}</div>
+      {contentElement}
       <Handle type="target" position={Position.Left} />
-
-      <div className={styles.nodeContent}>
-        <div className={styles.nodeName}>{name}</div>
-      </div>
-
       <Handle type="source" position={Position.Right} />
     </div>
   );

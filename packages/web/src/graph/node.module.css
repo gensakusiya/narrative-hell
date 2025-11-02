@@ -1,71 +1,65 @@
 @import 'tailwindcss';
 
 .node {
-  @apply relative px-3 py-2 rounded-md shadow-md transition-all duration-200 font-medium text-sm text-center;
+  --node-border-color: inherit;
+  --node-header-color: inherit;
+
+  @apply flex flex-col border border-solid rounded-sm
+    shadow-md transition-all duration-200 text-black text-sm text-left;
   min-width: 100px;
-  border-width: 2px;
+  border-width: 1px;
+  border-color: var(--node-border-color);
+  background-color: var(--color-background);
 
   &:hover {
     @apply shadow-lg;
   }
 }
 
-.start {
-  background-color: var(--color-start);
-  border-color: var(--color-start-border);
-  color: var(--color-start-text);
+.header {
+  @apply py-1 px-2 rounded-t-xs;
 
-  &:hover {
-    background-color: var(--color-hover);
+  background-color: var(--node-header-color);
+
+  &.line {
+    @apply border-b;
+    border-color: var(--node-border-color);
   }
+}
+
+.content {
+  @apply py-1 px-2;
+
+  min-height: 40px;
+}
+
+.start {
+  --node-border-color: var(--color-start-border);
+  --node-header-color: var(--color-start);
 }
 
 .end {
-  background-color: var(--color-end);
-  border-color: var(--color-end-border);
-  color: var(--color-end-text);
-
-  &:hover {
-    background-color: var(--color-hover);
-  }
+  --node-border-color: var(--color-end-border);
+  --node-header-color: var(--color-end);
 }
 
 .normal {
-  background-color: var(--color-normal);
-  border-color: var(--color-normal-border);
-  color: var(--color-normal-text);
-
-  &:hover {
-    background-color: var(--color-hover);
-  }
+  --node-border-color: var(--color-normal-border);
+  --node-header-color: var(--color-normal);
 }
 
 .unreachable {
-  background-color: var(--color-unreachable);
-  border-color: var(--color-unreachable-border);
-  color: var(--color-unreachable-text);
-
-  &:hover {
-    background-color: var(--color-hover);
-  }
+  --node-border-color: var(--color-unreachable-border);
+  --node-header-color: var(--color-unreachable);
 }
 
 .error {
-  background-color: var(--color-error);
-  border-color: var(--color-error-border);
-  color: var(--color-error-text);
-
-  &:hover {
-    background-color: var(--color-hover);
-  }
+  --node-border-color: var(--color-error-border);
+  --node-header-color: var(--color-error);
 }
 
 .selected {
   @apply shadow-xl;
-}
-
-.content {
-  @apply flex flex-col gap-1;
 }
 
 .name {

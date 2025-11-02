@@ -35,7 +35,7 @@ export interface BeatPartial extends Partial {
   line: string;
 }
 
-export interface BeatWithValidation extends Beat {
+export interface BeatWithValidation extends Beat, Record<string, unknown> {
   isStart: boolean;
   isEnd: boolean;
 

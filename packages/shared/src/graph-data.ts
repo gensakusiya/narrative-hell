@@ -15,9 +15,7 @@ export interface GraphNode<T extends object> {
   selected?: boolean;
 }
 
-export interface GraphEdge<
-  T extends Record<string, unknown> = Record<string, unknown>
-> {
+export interface GraphEdge<T extends object> {
   id: string;
 
   source: string;
@@ -32,5 +30,5 @@ export interface GraphEdge<
 
 export interface GraphData<T extends object> {
   nodes: GraphNode<T>[];
-  edges: GraphEdge[];
+  edges: GraphEdge<T>[];
 }

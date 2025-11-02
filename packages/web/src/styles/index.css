@@ -7,6 +7,8 @@
 @import './graph.css';
 
 @theme {
+  --color-background: oklch(1 0 0);
+
   --color-start: oklch(60% 0.15 142);
   --color-start-border: oklch(52% 0.15 143);
   --color-start-text: oklch(25% 0.12 142);
